@@ -1470,6 +1470,20 @@ button:disabled {
     border-radius: var(--radius-md);
   }
 
+  .auth-content {
+    padding: 16px;
+  }
+
+  .auth-card {
+    padding: 32px 20px;
+    border-radius: 12px;
+  }
+
+  .auth-theme-toggle {
+    top: 16px;
+    right: 16px;
+  }
+
   .modal-overlay {
     padding: 0;
     align-items: flex-end;

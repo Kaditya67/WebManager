@@ -745,6 +745,9 @@ function AuthScreen({ onAuthSuccess, theme, toggleTheme }) {
       <div className="auth-content">
         <div className="auth-card animate-slide-up">
           <div className="auth-header">
+            <div className="brand-logo mobile-only" style={{ width: 40, height: 40, margin: '0 auto 16px auto', color: 'var(--accent-vibrant)', justifyContent: 'center' }}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+            </div>
             <h1 style={{ fontSize: 24, marginBottom: 4 }}>{isLogin ? 'Welcome Back' : 'Create Account'}</h1>
             <p className="auth-subtitle">Sign in to your WebManager account</p>
           </div>
