@@ -12,6 +12,12 @@ const ExternalLinkIcon = () => <svg width="14" height="14" viewBox="0 0 24 24" f
 const FolderIcon = () => <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>;
 const SearchIcon = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>;
 const EditIcon = () => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>;
+const ProjectsIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>;
+const InsightsIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>;
+const ServersIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></svg>;
+const ProfileIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>;
+const LogoutIcon = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>;
+const PlusIcon = () => <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>;
 
 async function api(path = '', options = {}) {
   const token = localStorage.getItem('token');
@@ -169,7 +175,7 @@ function Project({ project, reload, onEditProject }) {
           <span className="badge tag" key={tag}>{tag}</span>
         ))}
       </div>
-      <div style={{ padding: '0 32px 28px' }}>
+      <div className="project-custom-fields">
         <CustomFieldsDisplay fields={project.customFields} />
       </div>
       
@@ -473,7 +479,7 @@ function ProfileSettings({ user, setUser }) {
   };
 
   return (
-    <div className="animate-fade-in" style={{ maxWidth: 500, margin: '48px auto', background: 'var(--bg-surface)', padding: 32, borderRadius: 'var(--radius-lg)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-sm)' }}>
+    <div className="profile-container animate-fade-in">
       <h2 style={{ marginBottom: 8 }}>Profile Settings</h2>
       <p style={{ color: 'var(--text-secondary)', marginBottom: 24 }}>Update your account information and credentials.</p>
       
@@ -522,7 +528,7 @@ function InsightsDashboard({ projects }) {
   });
 
   return (
-    <div className="animate-fade-in" style={{ padding: '0 32px' }}>
+    <div className="tab-content-container animate-fade-in">
       <div className="section-header" style={{ marginBottom: 32 }}>
         <h1 style={{ fontSize: 24, margin: 0 }}>Insights & Analytics</h1>
       </div>
@@ -542,7 +548,7 @@ function InsightsDashboard({ projects }) {
         </div>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: 24 }}>
+      <div className="insights-grid">
         <div className="stat-card">
           <h3 style={{ marginTop: 0, marginBottom: 16 }}>Component Types</h3>
           {Object.entries(typeCounts).map(([type, count]) => (
@@ -591,10 +597,6 @@ function ProvidersTab() {
 
   const [editingId, setEditingId] = useState(null);
 
-  useEffect(() => {
-    loadProviders();
-  }, []);
-
   const loadProviders = async () => {
     try {
       const data = await api('/providers');
@@ -605,6 +607,15 @@ function ProvidersTab() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    let active = true;
+    api('/providers')
+      .then(data => { if (active) setProviders(data); })
+      .catch(err => { if (active) setError(err.message); })
+      .finally(() => { if (active) setLoading(false); });
+    return () => { active = false; };
+  }, []);
 
   const submit = async (e) => {
     e.preventDefault();
@@ -647,7 +658,7 @@ function ProvidersTab() {
   if (loading) return <div className="loader">Loading...</div>;
 
   return (
-    <div className="animate-fade-in" style={{ padding: '0 32px' }}>
+    <div className="tab-content-container animate-fade-in">
       <div className="section-header" style={{ marginBottom: 32 }}>
         <h1 style={{ fontSize: 24, margin: 0 }}>Servers & Providers</h1>
         {!isAdding && (
@@ -729,6 +740,15 @@ export default function App() {
     localStorage.setItem('theme', theme);
   }, [theme]);
   
+  const loadProjects = async () => {
+    try { 
+      setProjects(await api('/projects')); 
+      setError(''); 
+    } catch (err) { 
+      setError(`Failed to load projects: ${err.message}`); 
+    }
+  };
+
   useEffect(() => {
     const init = async () => {
       const token = localStorage.getItem('token');
@@ -737,7 +757,7 @@ export default function App() {
           const userData = await api('/users/me');
           setUser(userData);
           await loadProjects();
-        } catch (e) {
+        } catch {
           localStorage.removeItem('token');
         }
       }
@@ -745,15 +765,6 @@ export default function App() {
     };
     init();
   }, []);
-
-  const loadProjects = async () => {
-    try { 
-      setProjects(await api('/projects')); 
-      setError(''); 
-    } catch (e) { 
-      setError(`Failed to load projects: ${e.message}`); 
-    }
-  };
   
   const handleOpenEditProject = (p) => {
     setForm({ name: p.name, description: p.description || '', frameworks: p.frameworks || '', primaryLanguage: p.primaryLanguage || '', repositoryUrl: p.repositoryUrl || '', tags: p.tags.join(', ') });
@@ -832,21 +843,41 @@ export default function App() {
     <div className="app-layout">
       <nav className="top-nav">
         <div className="nav-brand">
-          <div className="brand-logo"></div>
-          <span>Project Registry</span>
+          <div className="brand-logo">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+          </div>
+          <span className="brand-text">WebManager</span>
         </div>
-        <div className="nav-tabs">
-          <button className={`tab-btn ${activeTab === 'projects' ? 'active' : ''}`} onClick={() => setActiveTab('projects')}>Projects</button>
-          <button className={`tab-btn ${activeTab === 'insights' ? 'active' : ''}`} onClick={() => setActiveTab('insights')}>Insights</button>
-          <button className={`tab-btn ${activeTab === 'providers' ? 'active' : ''}`} onClick={() => setActiveTab('providers')}>Servers</button>
-          <button className={`tab-btn ${activeTab === 'profile' ? 'active' : ''}`} onClick={() => setActiveTab('profile')}>Profile</button>
+        <div className="nav-tabs desktop-only">
+          <button className={`tab-btn ${activeTab === 'projects' ? 'active' : ''}`} onClick={() => setActiveTab('projects')}>
+            <ProjectsIcon />
+            <span>Projects</span>
+          </button>
+          <button className={`tab-btn ${activeTab === 'insights' ? 'active' : ''}`} onClick={() => setActiveTab('insights')}>
+            <InsightsIcon />
+            <span>Insights</span>
+          </button>
+          <button className={`tab-btn ${activeTab === 'providers' ? 'active' : ''}`} onClick={() => setActiveTab('providers')}>
+            <ServersIcon />
+            <span>Servers</span>
+          </button>
+          <button className={`tab-btn ${activeTab === 'profile' ? 'active' : ''}`} onClick={() => setActiveTab('profile')}>
+            <ProfileIcon />
+            <span>Profile</span>
+          </button>
         </div>
         <div className="nav-user">
-          <button className="btn-icon" onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')} title="Toggle Theme" style={{ display: 'flex', alignItems: 'center' }}>
+          <button className="btn-icon theme-toggle-btn" onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')} title="Toggle Theme" aria-label="Toggle Theme">
             {theme === 'light' ? <MoonIcon /> : <SunIcon />}
           </button>
-          <span className="user-name">{user.name}</span>
-          <button className="btn-secondary small" onClick={logout}>Sign Out</button>
+          <div className="user-profile-badge" title={user.email}>
+            <span className="user-avatar">{user.name?.charAt(0).toUpperCase() || 'U'}</span>
+            <span className="user-name desktop-only">{user.name}</span>
+          </div>
+          <button className="btn-secondary small signout-btn" onClick={logout} title="Sign Out">
+            <span className="desktop-only">Sign Out</span>
+            <span className="mobile-only" style={{ display: 'flex', alignItems: 'center' }}><LogoutIcon /></span>
+          </button>
         </div>
       </nav>
 
@@ -857,28 +888,37 @@ export default function App() {
         {activeTab === 'insights' && <InsightsDashboard projects={projects} />}
         {activeTab === 'providers' && <ProvidersTab />}
         {activeTab === 'projects' && (
-          <div className="dashboard-main animate-slide-up" style={{ marginTop: 32 }}>
-            <div className="section-header" style={{ marginBottom: 32 }}>
-              <div className="flex-align">
+          <div className="dashboard-main animate-slide-up">
+            <div className="section-header project-section-header">
+              <div className="flex-align title-group">
                 <h1 style={{ fontSize: 24, margin: 0 }}>Projects</h1>
                 <span className="count-badge">{filteredProjects.length}</span>
+                {activeDeploymentsCount > 0 && (
+                  <span className="status-badge env-production" style={{ fontSize: 11, padding: '2px 8px' }} title="Active Production Deployments">
+                    {activeDeploymentsCount} live
+                  </span>
+                )}
               </div>
-            <div className="flex-align" style={{ gap: 16 }}>
-              <div className="search-bar" style={{ width: 300 }}>
-                <SearchIcon />
-                <input 
-                  type="text" 
-                  placeholder="Search projects by name, tag..." 
-                  value={searchQuery}
-                  onChange={e => setSearchQuery(e.target.value)}
-                  style={{ marginBottom: 0, border: 'none', background: 'transparent', width: '100%' }}
-                />
+              <div className="action-bar-group">
+                <div className="search-bar">
+                  <SearchIcon />
+                  <input 
+                    type="text" 
+                    placeholder="Search projects, tags, stacks..." 
+                    value={searchQuery}
+                    onChange={e => setSearchQuery(e.target.value)}
+                  />
+                  {searchQuery && (
+                    <button type="button" className="search-clear-btn" onClick={() => setSearchQuery('')} title="Clear search">
+                      <CloseIcon />
+                    </button>
+                  )}
+                </div>
+                <button className="btn-primary new-project-btn" onClick={handleOpenNewProject}>
+                  <PlusIcon /> <span>New Project</span>
+                </button>
               </div>
-              <button className="btn-primary" onClick={handleOpenNewProject} style={{ whiteSpace: 'nowrap' }}>
-                + New Project
-              </button>
             </div>
-          </div>
           
           <div className="projects-feed">
             {filteredProjects.length ? (
@@ -911,6 +951,26 @@ export default function App() {
           <button type="submit" className="btn-primary full-width" style={{ marginTop: 12 }}>{isEditingProject ? "Save Changes" : "Create Project"}</button>
         </form>
       </Modal>
+
+      {/* Mobile Bottom Navigation */}
+      <nav className="bottom-nav mobile-only">
+        <button className={`bottom-tab-btn ${activeTab === 'projects' ? 'active' : ''}`} onClick={() => setActiveTab('projects')} aria-label="Projects">
+          <ProjectsIcon />
+          <span>Projects</span>
+        </button>
+        <button className={`bottom-tab-btn ${activeTab === 'insights' ? 'active' : ''}`} onClick={() => setActiveTab('insights')} aria-label="Insights">
+          <InsightsIcon />
+          <span>Insights</span>
+        </button>
+        <button className={`bottom-tab-btn ${activeTab === 'providers' ? 'active' : ''}`} onClick={() => setActiveTab('providers')} aria-label="Servers">
+          <ServersIcon />
+          <span>Servers</span>
+        </button>
+        <button className={`bottom-tab-btn ${activeTab === 'profile' ? 'active' : ''}`} onClick={() => setActiveTab('profile')} aria-label="Profile">
+          <ProfileIcon />
+          <span>Profile</span>
+        </button>
+      </nav>
     </div>
   );
 }
