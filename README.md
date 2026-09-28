@@ -1,18 +1,20 @@
 # 🌐 WebManager
 
-**WebManager** is a full-stack developer platform designed to organize, visualize, and track software projects, microservice components, multi-environment deployments, and cloud infrastructure providers in a unified dashboard.
+**WebManager** is a full-stack developer platform designed to organize, visualize, and track software projects, microservice components, multi-environment deployments, and cloud infrastructure providers in a unified, high-density dashboard.
 
 ---
 
 ## 🌟 Key Features
 
-- **Project Management**: Organize applications, repositories, tech stacks, tags, and custom metadata.
-- **Component Architecture**: Breakdown complex systems into modular tiers (`frontend`, `backend`, `database`, `worker`, `mobile`, `other`) with repository branches and internal ports.
-- **Deployment Tracking**: Map live deployment instances (`production`, `staging`, `development`, `preview`) across cloud providers with active URLs and notes.
-- **Provider Registry**: Manage global cloud hosts, deployment platforms, and infrastructure services.
-- **System Insights**: Visual breakdowns of tech stacks, active components, and deployment distribution across projects.
-- **User Authentication**: Secure JWT-based authentication, user profiles, and encrypted password management.
-- **Modern Responsive UI**: Fast React 19 interface powered by Vite with Light/Dark mode switching and live search.
+- **Project Management**: Organize applications, repositories, tech stacks, tags, and custom metadata in an interactive hierarchy.
+- **Component Architecture**: Breakdown complex systems into modular tiers (`frontend`, `backend`, `database`, `worker`, `mobile`, `other`) with repository branches, tech stacks, and internal ports.
+- **Deployments Matrix**: A global, searchable table of all live deployments across environments (`production`, `staging`, `development`, `preview`) featuring 1-click URL copy and instant link launching.
+- **Connected Infrastructure Hub**: Track cloud hosts (AWS, Vercel, Supabase, Cloudflare, etc.) with bidirectional mapping that reveals which projects and components run on each host.
+- **System Insights**: Real-time analytics breaking down tech stacks, active components, and deployment distribution across your entire fleet.
+- **High-Density Developer UI**: Compact, zoomed-out design system inspired by modern developer tools (Vercel, Linear) with dark/light themes, Inter and JetBrains Mono typography.
+- **Mobile-First Experience**: Dedicated mobile bottom navigation bar, touch-friendly tap targets, safe-area offsets, and bottom-sheet modals.
+- **Full Loading State Suite**: Full-page app initialization loader, realistic shimmer skeleton cards, and asynchronous button spinners.
+- **Secure Authentication**: JWT-based authentication, user account modal, encrypted passwords with `bcrypt`, and protected endpoints.
 
 ---
 
@@ -44,9 +46,9 @@ Manager/
 ├── client/                  # Frontend single-page application
 │   ├── public/              # Static icons and assets
 │   ├── src/
-│   │   ├── App.jsx          # Main application logic, state, tabs, and modals
-│   │   ├── App.css          # Application design system & themes
-│   │   ├── index.css        # Global CSS resets
+│   │   ├── App.jsx          # Main app logic, tabs (Projects, Deployments, Infrastructure, Insights), modals
+│   │   ├── App.css          # High-density design system, responsive styles, animations
+│   │   ├── index.css        # Global CSS resets, theme palettes, desktop zoom scale
 │   │   └── main.jsx         # React root mounting
 │   ├── vite.config.js       # Vite configuration & dev server proxy (/api -> 5000)
 │   ├── package.json
@@ -133,6 +135,18 @@ Manager/
    ```
 
 4. Open your browser at **[http://localhost:5173](http://localhost:5173)**.
+
+---
+
+## 🧭 Navigation & Workflow
+
+| View | Access | Description |
+| :--- | :--- | :--- |
+| **Projects** | Primary Tab | View project architecture trees, add components, ports, branches, and custom fields. |
+| **Deployments** | Primary Tab | Searchable matrix of all live endpoints across all environments with 1-click copy. |
+| **Infrastructure** | Primary Tab | Manage hosting servers and view linked components deployed to each host. |
+| **Insights** | Primary Tab | High-level analytics and breakdown of tech stacks, categories, and environments. |
+| **Account Settings** | User Avatar | Edit user name, email, update password, or sign out. |
 
 ---
 
