@@ -1079,19 +1079,74 @@ button {
 }
 
 /* Auth Screens */
-.auth-container {
+.auth-page {
   min-height: 100vh;
+  display: flex;
+  background: var(--bg-base);
+}
+
+.auth-banner {
+  flex: 1;
+  background: var(--bg-surface);
+  border-right: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 60px 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+.banner-content {
+  max-width: 480px;
+  position: relative;
+  z-index: 2;
+}
+
+.banner-title {
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+  letter-spacing: -0.04em;
+}
+
+.banner-text {
+  font-size: 16px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 36px;
+}
+
+.banner-features .feature-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  color: var(--text-primary);
+  font-weight: 500;
+  font-size: 15px;
+}
+.feature-item svg {
+  color: var(--accent-vibrant);
+}
+
+.auth-content {
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--bg-base);
   padding: 24px;
+  position: relative;
+  background: var(--bg-base);
 }
 
 .auth-theme-toggle {
   position: absolute;
   top: 24px;
   right: 24px;
+  z-index: 10;
 }
 
 .auth-card {
@@ -1099,54 +1154,38 @@ button {
   border: 1px solid var(--border-subtle);
   border-radius: 12px;
   box-shadow: 0 4px 24px -6px rgba(0, 0, 0, 0.05), 0 0 1px rgba(0,0,0,0.1);
-  padding: 32px 28px;
+  padding: 40px;
   width: 100%;
-  max-width: 360px;
+  max-width: 380px;
 }
 
 .auth-header {
   text-align: center;
-  margin-bottom: 24px;
-}
-
-.auth-logo {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 12px;
-  color: var(--text-primary);
-}
-
-.auth-card h1 {
-  font-size: 20px;
-  font-weight: 600;
-  margin-bottom: 4px;
-  letter-spacing: -0.01em;
-  color: var(--text-primary);
+  margin-bottom: 32px;
 }
 
 .auth-subtitle {
   color: var(--text-secondary);
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .auth-form .form-group {
-  margin-bottom: 14px;
+  margin-bottom: 20px;
   text-align: left;
 }
 
 .auth-form label {
   display: block;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 500;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
   color: var(--text-primary);
 }
 
 .auth-form input {
-  height: 36px;
-  padding: 0 10px;
-  font-size: 13px;
+  height: 40px;
+  padding: 0 12px;
+  font-size: 14px;
   border-radius: 6px;
   background: var(--bg-base);
   border: 1px solid var(--border-subtle);
@@ -1160,11 +1199,11 @@ button {
 }
 
 .auth-submit {
-  height: 38px;
-  font-size: 13px;
+  height: 40px;
+  font-size: 14px;
   font-weight: 500;
   border-radius: 6px;
-  margin-top: 16px;
+  margin-top: 24px;
   background: var(--text-primary);
   color: var(--bg-surface);
   border: none;
@@ -1174,14 +1213,14 @@ button {
 }
 
 .auth-switch {
-  margin-top: 20px;
+  margin-top: 32px;
   text-align: center;
-  font-size: 12px;
+  font-size: 13px;
   color: var(--text-secondary);
 }
 
 .auth-switch .btn-link {
-  margin-left: 4px;
+  margin-left: 6px;
   font-weight: 500;
   color: var(--text-primary);
 }

@@ -713,54 +713,76 @@ function AuthScreen({ onAuthSuccess, theme, toggleTheme }) {
   };
 
   return (
-    <div className="auth-container">
+    <div className="auth-page">
       <div className="auth-theme-toggle">
         <button className="btn-icon" onClick={toggleTheme} title="Toggle Theme" style={{ display: 'flex', alignItems: 'center' }}>
           {theme === 'light' ? <MoonIcon /> : <SunIcon />}
         </button>
       </div>
-      <div className="auth-card animate-slide-up">
-        <div className="auth-header">
-          <div className="brand-logo pulse auth-logo">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+
+      <div className="auth-banner desktop-only">
+        <div className="banner-content animate-slide-up">
+          <div className="brand-logo pulse" style={{ width: 48, height: 48, marginBottom: 24, color: 'var(--accent-vibrant)' }}>
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
           </div>
-          <h1>{isLogin ? 'Welcome Back' : 'Create Account'}</h1>
-          <p className="auth-subtitle">Sign in to manage your deployment registry.</p>
-        </div>
-        
-        {error && <div className="error-banner">{error}</div>}
-        
-        <form onSubmit={submit} className="auth-form">
-          {!isLogin && (
-            <div className="form-group">
-              <label>Full Name</label>
-              <input required type="text" placeholder="e.g. Jane Doe" value={form.name} onChange={e => setForm({...form, name: e.target.value})} />
+          <h1 className="banner-title">Manage your entire architecture.</h1>
+          <p className="banner-text">Visualize deployments, track infrastructure, and organize your microservices all in one dense, high-performance dashboard.</p>
+          
+          <div className="banner-features">
+            <div className="feature-item">
+              <CheckIcon /> <span>Full-stack component visibility</span>
             </div>
-          )}
-          <div className="form-group">
-            <label>Email Address</label>
-            <input required type="email" placeholder="name@company.com" value={form.email} onChange={e => setForm({...form, email: e.target.value})} />
+            <div className="feature-item">
+              <CheckIcon /> <span>Real-time deployment tracking</span>
+            </div>
+            <div className="feature-item">
+              <CheckIcon /> <span>Cross-environment cloud mapping</span>
+            </div>
           </div>
-          <div className="form-group">
-            <label>Password</label>
-            <input required type="password" placeholder="••••••••" value={form.password} onChange={e => setForm({...form, password: e.target.value})} />
+        </div>
+      </div>
+
+      <div className="auth-content">
+        <div className="auth-card animate-slide-up">
+          <div className="auth-header">
+            <h1 style={{ fontSize: 24, marginBottom: 4 }}>{isLogin ? 'Welcome Back' : 'Create Account'}</h1>
+            <p className="auth-subtitle">Sign in to your WebManager account</p>
           </div>
-          <button type="submit" className="btn-primary full-width auth-submit" disabled={isSubmitting}>
-            {isSubmitting ? (
-              <><Spinner size="sm" /> <span>{isLogin ? 'Signing In...' : 'Registering...'}</span></>
-            ) : (
-              isLogin ? 'Sign In' : 'Register'
+          
+          {error && <div className="error-banner">{error}</div>}
+          
+          <form onSubmit={submit} className="auth-form">
+            {!isLogin && (
+              <div className="form-group">
+                <label>Full Name</label>
+                <input required type="text" placeholder="e.g. Jane Doe" value={form.name} onChange={e => setForm({...form, name: e.target.value})} />
+              </div>
             )}
-          </button>
-        </form>
-        
-        <div className="auth-switch">
-          <p>
-            {isLogin ? "Don't have an account?" : "Already have an account?"}
-            <button type="button" className="btn-link" onClick={() => { setIsLogin(!isLogin); setError(''); }}>
-              {isLogin ? 'Create one' : 'Sign in'}
+            <div className="form-group">
+              <label>Email Address</label>
+              <input required type="email" placeholder="name@company.com" value={form.email} onChange={e => setForm({...form, email: e.target.value})} />
+            </div>
+            <div className="form-group">
+              <label>Password</label>
+              <input required type="password" placeholder="••••••••" value={form.password} onChange={e => setForm({...form, password: e.target.value})} />
+            </div>
+            <button type="submit" className="btn-primary full-width auth-submit" disabled={isSubmitting}>
+              {isSubmitting ? (
+                <><Spinner size="sm" /> <span>{isLogin ? 'Signing In...' : 'Registering...'}</span></>
+              ) : (
+                isLogin ? 'Sign In' : 'Register'
+              )}
             </button>
-          </p>
+          </form>
+          
+          <div className="auth-switch">
+            <p>
+              {isLogin ? "Don't have an account?" : "Already have an account?"}
+              <button type="button" className="btn-link" onClick={() => { setIsLogin(!isLogin); setError(''); }}>
+                {isLogin ? 'Create one' : 'Sign in'}
+              </button>
+            </p>
+          </div>
         </div>
       </div>
     </div>
