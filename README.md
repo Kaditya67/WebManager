@@ -159,6 +159,33 @@ Manager/
 > - If database credentials or secret keys are ever exposed or committed to a public repository, immediately rotate the credentials in MongoDB Atlas and untrack the file using `git rm --cached <path/to/.env>`.
 
 ---
+## 🚀 Vercel Deployment Guide
+
+This project is pre-configured for Vercel deployment using a split monorepo setup. You will deploy the server and client as two separate Vercel projects from the same GitHub repository.
+
+### 1. Deploy the Server (Backend API)
+1. Go to Vercel and click **Add New Project**.
+2. Import this repository and set the **Root Directory** to server.
+3. In the **Environment Variables** section, add:
+   - MONGODB_URI (your MongoDB Atlas connection string)
+   - JWT_SECRET (a strong random string)
+   - ALLOWED_ORIGIN (leave this blank for now, you will update it later)
+4. Click **Deploy**. Vercel will automatically use server/vercel.json to deploy it as a Serverless API.
+5. Once deployed, copy the server's URL (e.g., https://webmanager-api.vercel.app).
+
+### 2. Deploy the Client (Frontend SPA)
+1. Go back to Vercel and click **Add New Project**.
+2. Import the same repository again, but set the **Root Directory** to client.
+3. In the **Environment Variables** section, add:
+   - VITE_API_URL (set this to the server URL you copied in step 1, e.g., https://webmanager-api.vercel.app)
+4. Click **Deploy**. Vercel will build the React app and use client/vercel.json for SPA routing.
+5. Once deployed, copy the frontend URL (e.g., https://webmanager.vercel.app).
+
+### 3. Update CORS on the Server
+1. Go to your **Server** project settings on Vercel.
+2. Under **Environment Variables**, find ALLOWED_ORIGIN and update its value to your **Client** URL (e.g., https://webmanager.vercel.app).
+3. Redeploy the server for the CORS changes to take effect.
+
 
 ## 📜 Available Scripts
 
