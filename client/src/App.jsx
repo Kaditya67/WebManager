@@ -757,7 +757,7 @@ function AuthScreen({ onAuthSuccess, theme, toggleTheme }) {
         <div className="auth-switch">
           <p>
             {isLogin ? "Don't have an account?" : "Already have an account?"}
-            <button className="btn-link" type="button" onClick={() => { setIsLogin(!isLogin); setError(''); }}>
+            <button type="button" className="btn-link" onClick={() => { setIsLogin(!isLogin); setError(''); }}>
               {isLogin ? 'Create one' : 'Sign in'}
             </button>
           </p>
