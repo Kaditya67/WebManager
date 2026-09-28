@@ -714,27 +714,38 @@ function AuthScreen({ onAuthSuccess, theme, toggleTheme }) {
 
   return (
     <div className="auth-container">
-      <div className="auth-theme-toggle" style={{ position: 'absolute', top: 16, right: 16 }}>
+      <div className="auth-theme-toggle">
         <button className="btn-icon" onClick={toggleTheme} title="Toggle Theme" style={{ display: 'flex', alignItems: 'center' }}>
           {theme === 'light' ? <MoonIcon /> : <SunIcon />}
         </button>
       </div>
       <div className="auth-card animate-slide-up">
-        <div className="brand-logo" style={{ marginBottom: 12 }}>
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+        <div className="auth-header">
+          <div className="brand-logo pulse auth-logo">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+          </div>
+          <h1>{isLogin ? 'Welcome Back' : 'Create Account'}</h1>
+          <p className="auth-subtitle">Sign in to manage your deployment registry.</p>
         </div>
-        <h1>{isLogin ? 'Welcome Back' : 'Create Account'}</h1>
-        <p className="auth-subtitle">Sign in to manage your deployment registry.</p>
         
         {error && <div className="error-banner">{error}</div>}
         
-        <form onSubmit={submit} className="compact-form">
+        <form onSubmit={submit} className="auth-form">
           {!isLogin && (
-            <input required type="text" placeholder="Full Name *" value={form.name} onChange={e => setForm({...form, name: e.target.value})} />
+            <div className="form-group">
+              <label>Full Name</label>
+              <input required type="text" placeholder="e.g. Jane Doe" value={form.name} onChange={e => setForm({...form, name: e.target.value})} />
+            </div>
           )}
-          <input required type="email" placeholder="Email Address *" value={form.email} onChange={e => setForm({...form, email: e.target.value})} />
-          <input required type="password" placeholder="Password *" value={form.password} onChange={e => setForm({...form, password: e.target.value})} />
-          <button type="submit" className="btn-primary full-width" disabled={isSubmitting} style={{ marginTop: 10 }}>
+          <div className="form-group">
+            <label>Email Address</label>
+            <input required type="email" placeholder="name@company.com" value={form.email} onChange={e => setForm({...form, email: e.target.value})} />
+          </div>
+          <div className="form-group">
+            <label>Password</label>
+            <input required type="password" placeholder="••••••••" value={form.password} onChange={e => setForm({...form, password: e.target.value})} />
+          </div>
+          <button type="submit" className="btn-primary full-width auth-submit" disabled={isSubmitting}>
             {isSubmitting ? (
               <><Spinner size="sm" /> <span>{isLogin ? 'Signing In...' : 'Registering...'}</span></>
             ) : (
@@ -746,7 +757,7 @@ function AuthScreen({ onAuthSuccess, theme, toggleTheme }) {
         <div className="auth-switch">
           <p>
             {isLogin ? "Don't have an account?" : "Already have an account?"}
-            <button className="btn-link" onClick={() => setIsLogin(!isLogin)}>
+            <button className="btn-link" type="button" onClick={() => { setIsLogin(!isLogin); setError(''); }}>
               {isLogin ? 'Create one' : 'Sign in'}
             </button>
           </p>

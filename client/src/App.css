@@ -31,13 +31,13 @@
    Top Navigation (Compact 46px Header)
    ========================================================================== */
 .top-nav {
-  height: 46px;
+  height: 52px;
   background: var(--bg-surface);
   border-bottom: 1px solid var(--border-subtle);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 16px;
+  padding: 0 24px;
   position: sticky;
   top: 0;
   z-index: 50;
@@ -133,9 +133,9 @@
 .user-profile-badge {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 3px 8px;
-  border-radius: 16px;
+  gap: 8px;
+  padding: 4px 10px;
+  border-radius: 20px;
   background: var(--bg-subtle);
   border: 1px solid var(--border-subtle);
   transition: all 0.12s ease;
@@ -151,12 +151,12 @@
 }
 
 .user-avatar {
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   background: var(--accent-vibrant);
   color: #ffffff;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
   display: flex;
   align-items: center;
@@ -239,10 +239,10 @@
    ========================================================================== */
 .dashboard {
   flex: 1;
-  max-width: 1060px;
+  max-width: 1200px;
   margin: 0 auto;
   width: 100%;
-  padding: 20px 16px;
+  padding: 32px 24px;
 }
 
 .tab-content-container {
@@ -518,9 +518,10 @@
    Project Cards (High Density)
    ========================================================================== */
 .projects-feed {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+  align-items: start;
 }
 
 .project {
@@ -1083,42 +1084,105 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--bg-base);
-  padding: 16px;
+  background: radial-gradient(circle at top, var(--bg-surface), var(--bg-base) 100%);
+  padding: 24px;
+}
+
+.auth-theme-toggle {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-full);
+  padding: 4px;
+  box-shadow: var(--shadow-sm);
 }
 
 .auth-card {
   background: var(--bg-surface);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-lg);
-  padding: 28px 24px;
+  border: 1px solid var(--border-strong);
+  border-radius: 16px;
+  box-shadow: var(--shadow-lg), 0 20px 40px rgba(0, 0, 0, 0.05);
+  padding: 40px 32px;
   width: 100%;
-  max-width: 360px;
+  max-width: 400px;
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.auth-logo {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 48px;
+  height: 48px;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-strong);
+  border-radius: 12px;
+  margin-bottom: 16px;
+  color: var(--accent-vibrant);
 }
 
 .auth-card h1 {
-  font-size: 20px;
-  font-weight: 600;
-  margin-bottom: 3px;
-  letter-spacing: -0.02em;
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
 }
 
 .auth-subtitle {
   color: var(--text-secondary);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.auth-form .form-group {
   margin-bottom: 16px;
-  font-size: 12px;
+  text-align: left;
+}
+
+.auth-form label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 6px;
+  color: var(--text-primary);
+}
+
+.auth-form input {
+  height: 40px;
+  padding: 0 12px;
+  font-size: 14px;
+  border-radius: 8px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.auth-submit {
+  height: 40px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 8px;
+  margin-top: 24px;
 }
 
 .auth-switch {
-  margin-top: 16px;
+  margin-top: 24px;
   text-align: center;
-  font-size: 11.5px;
+  font-size: 13px;
   color: var(--text-secondary);
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 20px;
 }
 
 .auth-switch .btn-link {
-  margin-left: 4px;
+  margin-left: 6px;
+  font-weight: 600;
+  color: var(--accent-vibrant);
 }
 
 /* Feedback & Empty States */
@@ -1285,7 +1349,7 @@ button:disabled {
   }
 
   .dashboard {
-    padding: 14px 10px;
+    padding: 20px 16px;
     padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px));
   }
 
