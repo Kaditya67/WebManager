@@ -19,6 +19,84 @@ const ProfileIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="
 const LogoutIcon = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>;
 const PlusIcon = () => <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>;
 
+/* Loading Spinners & Skeleton Components */
+const Spinner = ({ size = 'sm', className = '' }) => {
+  const dim = size === 'lg' ? 32 : size === 'md' ? 20 : 13;
+  return (
+    <svg className={`spinner ${className}`} width={dim} height={dim} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" opacity="0.2" />
+      <path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+    </svg>
+  );
+};
+
+function AppLoadingScreen() {
+  return (
+    <div className="app-loader-screen">
+      <div className="app-loader-content animate-fade-in">
+        <div className="app-loader-brand">
+          <div className="brand-logo pulse">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+          </div>
+          <span className="brand-text" style={{ fontSize: 15, fontWeight: 700 }}>WebManager</span>
+        </div>
+        <div className="loader-ring-wrapper">
+          <Spinner size="md" />
+        </div>
+        <span className="app-loader-text">Loading workspace...</span>
+      </div>
+    </div>
+  );
+}
+
+function ProjectSkeleton() {
+  return (
+    <div className="project skeleton-card">
+      <div className="project-header" style={{ cursor: 'default' }}>
+        <div className="project-title-group" style={{ width: '65%' }}>
+          <div className="skeleton-bar" style={{ width: '40%', height: 15, marginBottom: 6 }}></div>
+          <div className="skeleton-bar" style={{ width: '80%', height: 11 }}></div>
+        </div>
+        <div className="project-actions">
+          <div className="skeleton-pill" style={{ width: 74, height: 20 }}></div>
+        </div>
+      </div>
+      <div className="meta" style={{ padding: '0 18px 12px' }}>
+        <div className="skeleton-pill" style={{ width: 85, height: 16 }}></div>
+        <div className="skeleton-pill" style={{ width: 60, height: 16 }}></div>
+        <div className="skeleton-pill" style={{ width: 50, height: 16 }}></div>
+      </div>
+    </div>
+  );
+}
+
+function ProjectSkeletonList() {
+  return (
+    <div className="projects-feed">
+      <ProjectSkeleton />
+      <ProjectSkeleton />
+      <ProjectSkeleton />
+    </div>
+  );
+}
+
+function ProviderSkeletonList() {
+  return (
+    <div className="stats-grid">
+      {[1, 2, 3].map(i => (
+        <div key={i} className="stat-card skeleton-card" style={{ display: 'block', minHeight: 96 }}>
+          <div className="flex-align" style={{ justifyContent: 'space-between', marginBottom: 10 }}>
+            <div className="skeleton-bar" style={{ width: '45%', height: 14 }}></div>
+            <div className="skeleton-pill" style={{ width: 36, height: 16 }}></div>
+          </div>
+          <div className="skeleton-bar" style={{ width: '65%', height: 11, marginBottom: 8 }}></div>
+          <div className="skeleton-bar" style={{ width: '35%', height: 11 }}></div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 async function api(path = '', options = {}) {
   const token = localStorage.getItem('token');
   const headers = { 'Content-Type': 'application/json' };
@@ -404,10 +482,12 @@ function AuthScreen({ onAuthSuccess, theme, toggleTheme }) {
   const [isLogin, setIsLogin] = useState(true);
   const [form, setForm] = useState({ name: '', email: '', password: '' });
   const [error, setError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
   
   const submit = async e => {
     e.preventDefault();
     setError('');
+    setIsSubmitting(true);
     try {
       const endpoint = isLogin ? '/users/login' : '/users/register';
       const data = await api(endpoint, { method: 'POST', body: JSON.stringify(form) });
@@ -415,6 +495,8 @@ function AuthScreen({ onAuthSuccess, theme, toggleTheme }) {
       onAuthSuccess(data.user);
     } catch (err) {
       setError(err.message);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -437,8 +519,12 @@ function AuthScreen({ onAuthSuccess, theme, toggleTheme }) {
           )}
           <input required type="email" placeholder="Email Address *" value={form.email} onChange={e => setForm({...form, email: e.target.value})} />
           <input required type="password" placeholder="Password *" value={form.password} onChange={e => setForm({...form, password: e.target.value})} />
-          <button type="submit" className="btn-primary full-width" style={{ marginTop: 12 }}>
-            {isLogin ? 'Sign In' : 'Register'}
+          <button type="submit" className="btn-primary full-width" disabled={isSubmitting} style={{ marginTop: 12 }}>
+            {isSubmitting ? (
+              <><Spinner size="sm" /> <span>{isLogin ? 'Signing In...' : 'Registering...'}</span></>
+            ) : (
+              isLogin ? 'Sign In' : 'Register'
+            )}
           </button>
         </form>
         
@@ -459,11 +545,13 @@ function ProfileSettings({ user, setUser }) {
   const [form, setForm] = useState({ name: user.name, email: user.email, password: '' });
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
+  const [isSaving, setIsSaving] = useState(false);
 
   const submit = async (e) => {
     e.preventDefault();
     setMessage('');
     setError('');
+    setIsSaving(true);
     try {
       const data = await api('/users/me', {
         method: 'PUT',
@@ -475,6 +563,8 @@ function ProfileSettings({ user, setUser }) {
       setMessage('Profile updated successfully!');
     } catch (err) {
       setError(err.message);
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -496,7 +586,9 @@ function ProfileSettings({ user, setUser }) {
         <label style={{ display: 'block', marginBottom: 4, fontSize: 13, color: 'var(--text-secondary)' }}>New Password</label>
         <input type="password" placeholder="Leave blank to keep current password" value={form.password} onChange={e => setForm({...form, password: e.target.value})} />
         
-        <button type="submit" className="btn-primary full-width" style={{ marginTop: 16 }}>Save Changes</button>
+        <button type="submit" className="btn-primary full-width" disabled={isSaving} style={{ marginTop: 16 }}>
+          {isSaving ? <><Spinner size="sm" /> <span>Saving Changes...</span></> : 'Save Changes'}
+        </button>
       </form>
     </div>
   );
@@ -596,6 +688,7 @@ function ProvidersTab() {
   const [customFields, setCustomFields] = useState([]);
 
   const [editingId, setEditingId] = useState(null);
+  const [isSaving, setIsSaving] = useState(false);
 
   const loadProviders = async () => {
     try {
@@ -619,6 +712,7 @@ function ProvidersTab() {
 
   const submit = async (e) => {
     e.preventDefault();
+    setIsSaving(true);
     try {
       if (editingId) {
         await api(`/providers/${editingId}`, {
@@ -638,6 +732,8 @@ function ProvidersTab() {
       await loadProviders();
     } catch (err) {
       setError(err.message);
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -655,12 +751,10 @@ function ProvidersTab() {
     }
   };
 
-  if (loading) return <div className="loader">Loading...</div>;
-
   return (
     <div className="tab-content-container animate-fade-in">
-      <div className="section-header" style={{ marginBottom: 32 }}>
-        <h1 style={{ fontSize: 24, margin: 0 }}>Servers & Providers</h1>
+      <div className="section-header" style={{ marginBottom: 18 }}>
+        <h1 style={{ fontSize: 18, margin: 0 }}>Servers & Providers</h1>
         {!isAdding && (
           <button className="btn-primary" onClick={() => setIsAdding(true)}>+ Add Provider</button>
         )}
@@ -669,8 +763,8 @@ function ProvidersTab() {
       {error && <div className="error-banner">{error}</div>}
 
       {isAdding && (
-        <div style={{ marginBottom: 32 }}>
-          <AddForm title={editingId ? "Edit Provider" : "Add Provider"} submitLabel="Save Provider" onSubmit={submit} onCancel={() => { setIsAdding(false); setEditingId(null); }}>
+        <div style={{ marginBottom: 20 }}>
+          <AddForm title={editingId ? "Edit Provider" : "Add Provider"} submitLabel={isSaving ? "Saving..." : "Save Provider"} onSubmit={submit} onCancel={() => { setIsAdding(false); setEditingId(null); }}>
             <div className="form-row">
               <input required placeholder="Provider Name *" value={form.name} onChange={e => setForm({...form, name: e.target.value})} />
               <input type="url" placeholder="Login / Dashboard URL" value={form.url} onChange={e => setForm({...form, url: e.target.value})} />
@@ -682,7 +776,9 @@ function ProvidersTab() {
       )}
 
       <div className="projects-feed">
-        {providers.length === 0 && !isAdding ? (
+        {loading ? (
+          <ProviderSkeletonList />
+        ) : providers.length === 0 && !isAdding ? (
            <div className="empty-state">
              <div className="empty-icon"><FolderIcon /></div>
              <h3>No Providers</h3>
@@ -740,12 +836,18 @@ export default function App() {
     localStorage.setItem('theme', theme);
   }, [theme]);
   
+  const [isProjectsLoading, setIsProjectsLoading] = useState(false);
+  const [isSubmittingProject, setIsSubmittingProject] = useState(false);
+
   const loadProjects = async () => {
+    setIsProjectsLoading(true);
     try { 
       setProjects(await api('/projects')); 
       setError(''); 
     } catch (err) { 
       setError(`Failed to load projects: ${err.message}`); 
+    } finally {
+      setIsProjectsLoading(false);
     }
   };
 
@@ -782,6 +884,7 @@ export default function App() {
 
   const submitProject = async e => { 
     e.preventDefault(); 
+    setIsSubmittingProject(true);
     try { 
       if (isEditingProject) {
         await api(`/projects/${isEditingProject._id}`, { 
@@ -809,7 +912,9 @@ export default function App() {
       await loadProjects(); 
     } catch (err) { 
       setError(err.message); 
-    } 
+    } finally {
+      setIsSubmittingProject(false);
+    }
   };
 
   const logout = () => {
@@ -818,7 +923,7 @@ export default function App() {
     setProjects([]);
   };
 
-  if (loading) return <div className="loader">Loading...</div>;
+  if (loading) return <AppLoadingScreen />;
   if (!user) return <AuthScreen 
     onAuthSuccess={(u) => { setUser(u); loadProjects(); }} 
     theme={theme}
@@ -921,7 +1026,9 @@ export default function App() {
             </div>
           
           <div className="projects-feed">
-            {filteredProjects.length ? (
+            {isProjectsLoading && projects.length === 0 ? (
+              <ProjectSkeletonList />
+            ) : filteredProjects.length ? (
               filteredProjects.map(p => <Project project={p} reload={loadProjects} key={p._id} onEditProject={handleOpenEditProject} />)
             ) : (
               <div className="empty-state">
@@ -948,7 +1055,13 @@ export default function App() {
           </div>
           <textarea placeholder="Brief description of the project..." value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} />
           <CustomFieldBuilder fields={projectCustomFields} setFields={setProjectCustomFields} />
-          <button type="submit" className="btn-primary full-width" style={{ marginTop: 12 }}>{isEditingProject ? "Save Changes" : "Create Project"}</button>
+          <button type="submit" className="btn-primary full-width" disabled={isSubmittingProject} style={{ marginTop: 12 }}>
+            {isSubmittingProject ? (
+              <><Spinner size="sm" /> <span>{isEditingProject ? "Saving Changes..." : "Creating Project..."}</span></>
+            ) : (
+              isEditingProject ? "Save Changes" : "Create Project"
+            )}
+          </button>
         </form>
       </Modal>
 
