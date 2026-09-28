@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react';
 import './App.css';
 
+// In production (Vercel), VITE_API_URL is set to the deployed backend URL.
+// In local dev, it's empty and Vite's proxy forwards /api → localhost:5000.
+const API_BASE = import.meta.env.VITE_API_URL || '';
+
 const types = ['frontend', 'backend', 'database', 'worker', 'mobile', 'other'];
 const environments = ['production', 'staging', 'development', 'preview', 'other'];
 
@@ -141,7 +145,7 @@ async function api(path = '', options = {}) {
   const headers = { 'Content-Type': 'application/json' };
   if (token) headers['Authorization'] = `Bearer ${token}`;
 
-  const response = await fetch(`/api${path}`, { headers, ...options });
+  const response = await fetch(`${API_BASE}/api${path}`, { headers, ...options });
   
   if (!response.ok) {
     if (response.status === 401) {
