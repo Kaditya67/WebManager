@@ -1,17 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
-
 :root {
-  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  letter-spacing: -0.012em;
   
-  /* Compact & Balanced Typography */
-  font-size: 13.5px;
+  /* Zoomed-Out Developer Typography */
+  font-size: 13px;
   line-height: 1.45;
   
-  /* Color Palette - Crisp Light Theme (Default) */
+  /* Light Theme (Clean Vercel/Linear Palette) */
   --bg-base: #f8fafc;
   --bg-surface: #ffffff;
   --bg-subtle: #f1f5f9;
@@ -23,6 +22,7 @@
   
   --border-subtle: #e2e8f0;
   --border-strong: #cbd5e1;
+  --border-highlight: #93c5fd;
   
   --accent-primary: #0f172a;
   --accent-primary-text: #ffffff;
@@ -46,62 +46,70 @@
   --status-info-text: #2563eb;
   --status-info-border: #bfdbfe;
 
-  /* Sleek Geometries */
-  --radius-xs: 3px;
-  --radius-sm: 5px;
-  --radius-md: 7px;
-  --radius-lg: 11px;
+  /* Sleek Borders & Radii */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
   
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.04);
-  --shadow-md: 0 3px 6px -1px rgba(0, 0, 0, 0.05), 0 1px 3px -1px rgba(0, 0, 0, 0.03);
-  --shadow-lg: 0 8px 16px -2px rgba(0, 0, 0, 0.06), 0 3px 6px -2px rgba(0, 0, 0, 0.03);
-  --shadow-focus: 0 0 0 2.5px rgba(37, 99, 235, 0.22);
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+  --shadow-focus: 0 0 0 2px rgba(37, 99, 235, 0.2);
 }
 
 [data-theme='dark'] {
-  --bg-base: #090d16;
-  --bg-surface: #0f172a;
-  --bg-subtle: #1e293b;
-  --bg-subtle-hover: #334155;
+  --bg-base: #080b11;
+  --bg-surface: #0f1420;
+  --bg-subtle: #171e2e;
+  --bg-subtle-hover: #212a40;
   
   --text-primary: #f8fafc;
   --text-secondary: #94a3b8;
   --text-muted: #64748b;
   
-  --border-subtle: #1e293b;
-  --border-strong: #334155;
+  --border-subtle: #1c2438;
+  --border-strong: #28344e;
+  --border-highlight: #3b82f6;
   
   --accent-primary: #f8fafc;
-  --accent-primary-text: #0f172a;
+  --accent-primary-text: #080b11;
   --accent-hover: #e2e8f0;
   --accent-vibrant: #3b82f6;
   
-  --status-success: rgba(16, 185, 129, 0.12);
+  --status-success: rgba(16, 185, 129, 0.1);
   --status-success-text: #34d399;
-  --status-success-border: rgba(52, 211, 153, 0.25);
+  --status-success-border: rgba(52, 211, 153, 0.2);
   
-  --status-warning: rgba(245, 158, 11, 0.12);
+  --status-warning: rgba(245, 158, 11, 0.1);
   --status-warning-text: #fbbf24;
-  --status-warning-border: rgba(251, 191, 36, 0.25);
+  --status-warning-border: rgba(251, 191, 36, 0.2);
   
-  --status-error: rgba(239, 68, 68, 0.12);
+  --status-error: rgba(239, 68, 68, 0.1);
   --status-error-text: #f87171;
-  --status-error-border: rgba(248, 113, 113, 0.25);
+  --status-error-border: rgba(248, 113, 113, 0.2);
   
-  --status-info: rgba(59, 130, 246, 0.12);
+  --status-info: rgba(59, 130, 246, 0.1);
   --status-info-text: #60a5fa;
-  --status-info-border: rgba(96, 165, 250, 0.25);
+  --status-info-border: rgba(96, 165, 250, 0.2);
   
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 3px 6px -1px rgba(0, 0, 0, 0.45);
-  --shadow-lg: 0 8px 16px -2px rgba(0, 0, 0, 0.5);
-  --shadow-focus: 0 0 0 2.5px rgba(59, 130, 246, 0.35);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.6);
+  --shadow-focus: 0 0 0 2px rgba(59, 130, 246, 0.3);
 }
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+/* Global Zoom Out for Desktop (Gives sleek developer density) */
+@media (min-width: 769px) {
+  html {
+    zoom: 0.90;
+  }
 }
 
 body {

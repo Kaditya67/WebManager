@@ -5,23 +5,26 @@ const types = ['frontend', 'backend', 'database', 'worker', 'mobile', 'other'];
 const environments = ['production', 'staging', 'development', 'preview', 'other'];
 
 /* Icons */
-const SunIcon = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>;
-const MoonIcon = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>;
-const CloseIcon = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>;
-const ExternalLinkIcon = () => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: 4 }}><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>;
-const FolderIcon = () => <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>;
-const SearchIcon = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>;
-const EditIcon = () => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>;
-const ProjectsIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>;
-const InsightsIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>;
-const ServersIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></svg>;
-const ProfileIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>;
-const LogoutIcon = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>;
-const PlusIcon = () => <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>;
+const SunIcon = () => <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>;
+const MoonIcon = () => <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>;
+const CloseIcon = () => <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>;
+const ExternalLinkIcon = () => <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: 3 }}><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>;
+const FolderIcon = () => <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>;
+const SearchIcon = () => <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>;
+const EditIcon = () => <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>;
+const ProjectsIcon = () => <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>;
+const DeploymentsIcon = () => <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>;
+const ServersIcon = () => <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></svg>;
+const InsightsIcon = () => <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>;
+const ProfileIcon = () => <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>;
+const LogoutIcon = () => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>;
+const PlusIcon = () => <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>;
+const CopyIcon = () => <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="13" height="13" x="9" y="9" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>;
+const CheckIcon = () => <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>;
 
 /* Loading Spinners & Skeleton Components */
 const Spinner = ({ size = 'sm', className = '' }) => {
-  const dim = size === 'lg' ? 32 : size === 'md' ? 20 : 13;
+  const dim = size === 'lg' ? 28 : size === 'md' ? 18 : 12;
   return (
     <svg className={`spinner ${className}`} width={dim} height={dim} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" opacity="0.2" />
@@ -30,15 +33,31 @@ const Spinner = ({ size = 'sm', className = '' }) => {
   );
 };
 
+function CopyButton({ text }) {
+  const [copied, setCopied] = useState(false);
+  const handleCopy = (e) => {
+    e.stopPropagation();
+    navigator.clipboard.writeText(text);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1600);
+  };
+  return (
+    <button type="button" className={`btn-icon copy-btn ${copied ? 'copied' : ''}`} onClick={handleCopy} title={copied ? 'Copied!' : 'Copy to clipboard'}>
+      {copied ? <CheckIcon /> : <CopyIcon />}
+      {copied && <span className="copied-tooltip">Copied!</span>}
+    </button>
+  );
+}
+
 function AppLoadingScreen() {
   return (
     <div className="app-loader-screen">
       <div className="app-loader-content animate-fade-in">
         <div className="app-loader-brand">
           <div className="brand-logo pulse">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
           </div>
-          <span className="brand-text" style={{ fontSize: 15, fontWeight: 700 }}>WebManager</span>
+          <span className="brand-text" style={{ fontSize: 14, fontWeight: 700 }}>WebManager</span>
         </div>
         <div className="loader-ring-wrapper">
           <Spinner size="md" />
@@ -54,17 +73,17 @@ function ProjectSkeleton() {
     <div className="project skeleton-card">
       <div className="project-header" style={{ cursor: 'default' }}>
         <div className="project-title-group" style={{ width: '65%' }}>
-          <div className="skeleton-bar" style={{ width: '40%', height: 15, marginBottom: 6 }}></div>
-          <div className="skeleton-bar" style={{ width: '80%', height: 11 }}></div>
+          <div className="skeleton-bar" style={{ width: '40%', height: 14, marginBottom: 6 }}></div>
+          <div className="skeleton-bar" style={{ width: '80%', height: 10 }}></div>
         </div>
         <div className="project-actions">
-          <div className="skeleton-pill" style={{ width: 74, height: 20 }}></div>
+          <div className="skeleton-pill" style={{ width: 68, height: 18 }}></div>
         </div>
       </div>
-      <div className="meta" style={{ padding: '0 18px 12px' }}>
-        <div className="skeleton-pill" style={{ width: 85, height: 16 }}></div>
-        <div className="skeleton-pill" style={{ width: 60, height: 16 }}></div>
-        <div className="skeleton-pill" style={{ width: 50, height: 16 }}></div>
+      <div className="meta" style={{ padding: '0 16px 10px' }}>
+        <div className="skeleton-pill" style={{ width: 80, height: 15 }}></div>
+        <div className="skeleton-pill" style={{ width: 55, height: 15 }}></div>
+        <div className="skeleton-pill" style={{ width: 45, height: 15 }}></div>
       </div>
     </div>
   );
@@ -84,13 +103,13 @@ function ProviderSkeletonList() {
   return (
     <div className="stats-grid">
       {[1, 2, 3].map(i => (
-        <div key={i} className="stat-card skeleton-card" style={{ display: 'block', minHeight: 96 }}>
-          <div className="flex-align" style={{ justifyContent: 'space-between', marginBottom: 10 }}>
-            <div className="skeleton-bar" style={{ width: '45%', height: 14 }}></div>
-            <div className="skeleton-pill" style={{ width: 36, height: 16 }}></div>
+        <div key={i} className="stat-card skeleton-card" style={{ display: 'block', minHeight: 90 }}>
+          <div className="flex-align" style={{ justifyContent: 'space-between', marginBottom: 8 }}>
+            <div className="skeleton-bar" style={{ width: '45%', height: 13 }}></div>
+            <div className="skeleton-pill" style={{ width: 34, height: 15 }}></div>
           </div>
-          <div className="skeleton-bar" style={{ width: '65%', height: 11, marginBottom: 8 }}></div>
-          <div className="skeleton-bar" style={{ width: '35%', height: 11 }}></div>
+          <div className="skeleton-bar" style={{ width: '65%', height: 10, marginBottom: 6 }}></div>
+          <div className="skeleton-bar" style={{ width: '35%', height: 10 }}></div>
         </div>
       ))}
     </div>
@@ -128,7 +147,7 @@ function CustomFieldBuilder({ fields, setFields }) {
   return (
     <div className="custom-fields-builder">
       {fields.map((f, i) => (
-        <div key={i} className="form-row flex-align" style={{ marginBottom: 8, gap: 8 }}>
+        <div key={i} className="form-row flex-align" style={{ marginBottom: 6, gap: 6 }}>
           <input 
             placeholder="Key *" 
             value={f.key} 
@@ -146,7 +165,7 @@ function CustomFieldBuilder({ fields, setFields }) {
           <button type="button" className="btn-icon" onClick={() => removeField(i)}><CloseIcon /></button>
         </div>
       ))}
-      <button type="button" className="btn-link" style={{ fontSize: 13, marginBottom: 16 }} onClick={addField}>+ Add Custom Detail</button>
+      <button type="button" className="btn-link" style={{ fontSize: 11.5 }} onClick={addField}>+ Add Custom Detail</button>
     </div>
   );
 }
@@ -197,7 +216,7 @@ function AddForm({ title, children, onSubmit, submitLabel, onCancel }) {
         {onCancel && <button type="button" className="btn-icon" onClick={onCancel}><CloseIcon /></button>}
       </div>
       {children}
-      <button type="submit" className="btn-primary full-width" style={{ marginTop: 8 }}>{submitLabel}</button>
+      <button type="submit" className="btn-primary full-width" style={{ marginTop: 6 }}>{submitLabel}</button>
     </form>
   );
 }
@@ -258,9 +277,9 @@ function Project({ project, reload, onEditProject }) {
       </div>
       
       {open && (
-        <div className="content animate-fade-in" style={{ background: 'var(--bg-subtle)' }}>
-          <div className="flex-align" style={{ justifyContent: 'space-between', marginBottom: 16 }}>
-            <h3 style={{ fontSize: 16, margin: 0 }}>Architecture</h3>
+        <div className="content animate-fade-in">
+          <div className="flex-align" style={{ justifyContent: 'space-between', marginBottom: 12 }}>
+            <h3 style={{ fontSize: 13.5, margin: 0, fontWeight: 600 }}>Architecture & Services</h3>
             {!isAddingComponent && (
               <button className="btn-secondary small" onClick={() => setIsAddingComponent(true)}>+ Add Component</button>
             )}
@@ -275,11 +294,11 @@ function Project({ project, reload, onEditProject }) {
                 </select>
               </div>
               <div className="form-row">
-                <input placeholder="Tech Stack (e.g. Next.js)" value={component.techStack} onChange={e => setComponent({ ...component, techStack: e.target.value })} />
-                <input placeholder="Database Used" value={component.databaseUsed} onChange={e => setComponent({ ...component, databaseUsed: e.target.value })} />
+                <input placeholder="Tech Stack (e.g. Next.js, Django)" value={component.techStack} onChange={e => setComponent({ ...component, techStack: e.target.value })} />
+                <input placeholder="Database Used (e.g. Postgres)" value={component.databaseUsed} onChange={e => setComponent({ ...component, databaseUsed: e.target.value })} />
               </div>
               <div className="form-row">
-                <input placeholder="Hosting Provider (e.g. AWS)" value={component.hostingProvider} onChange={e => setComponent({ ...component, hostingProvider: e.target.value })} />
+                <input placeholder="Hosting Provider (e.g. AWS, Vercel)" value={component.hostingProvider} onChange={e => setComponent({ ...component, hostingProvider: e.target.value })} />
                 <input type="number" placeholder="Internal Port (e.g. 5000)" value={component.internalPort} onChange={e => setComponent({ ...component, internalPort: e.target.value })} />
               </div>
               <div className="form-row">
@@ -306,7 +325,6 @@ function ComponentCard({ project, component, reload }) {
   const [customFields, setCustomFields] = useState([]);
   const [isAddingDeployment, setIsAddingDeployment] = useState(false);
   
-  // Edit state for Component itself
   const [isEditing, setIsEditing] = useState(false);
   const [editData, setEditData] = useState({ name: '', type: 'frontend', techStack: '', databaseUsed: '', hostingProvider: '', internalPort: '', repositoryUrl: '', branch: '', notes: '' });
   const [editCustomFields, setEditCustomFields] = useState([]);
@@ -344,7 +362,7 @@ function ComponentCard({ project, component, reload }) {
   };
   
   return (
-    <div className="part-card" style={{ marginBottom: 16 }}>
+    <div className="part-card">
       {isEditing ? (
         <AddForm title="Edit Component" submitLabel="Save Changes" onSubmit={saveEdit} onCancel={() => setIsEditing(false)}>
           <div className="form-row">
@@ -371,7 +389,7 @@ function ComponentCard({ project, component, reload }) {
         <>
           <div className="part-header">
             <div className="flex-align">
-              <strong style={{ fontSize: 16 }}>{component.name}</strong> 
+              <strong style={{ fontSize: 13.5 }}>{component.name}</strong> 
               <span className="badge type-badge">{component.type}</span>
               {component.repositoryUrl && (
                 <a href={component.repositoryUrl} target="_blank" rel="noreferrer" className="link flex-align" style={{ gap: 0 }}>Source <ExternalLinkIcon /></a>
@@ -385,12 +403,12 @@ function ComponentCard({ project, component, reload }) {
             </div>
           </div>
           
-          <div style={{ marginTop: 12, marginBottom: 12, fontSize: 13, display: 'flex', gap: 16, flexWrap: 'wrap' }}>
+          <div style={{ marginTop: 8, marginBottom: 8, fontSize: 11.5, display: 'flex', gap: 12, flexWrap: 'wrap' }}>
             {component.techStack && <div><span style={{ color: 'var(--text-muted)' }}>Tech:</span> {component.techStack}</div>}
             {component.databaseUsed && <div><span style={{ color: 'var(--text-muted)' }}>DB:</span> {component.databaseUsed}</div>}
-            {component.hostingProvider && <div><span style={{ color: 'var(--text-muted)' }}>Hosting:</span> {component.hostingProvider}</div>}
-            {component.internalPort && <div><span style={{ color: 'var(--text-muted)' }}>Port:</span> {component.internalPort}</div>}
-            {component.branch && <div><span style={{ color: 'var(--text-muted)' }}>Branch:</span> {component.branch}</div>}
+            {component.hostingProvider && <div><span style={{ color: 'var(--text-muted)' }}>Host:</span> {component.hostingProvider}</div>}
+            {component.internalPort && <div><span style={{ color: 'var(--text-muted)' }}>Port:</span> <code>:{component.internalPort}</code></div>}
+            {component.branch && <div><span style={{ color: 'var(--text-muted)' }}>Branch:</span> <code>{component.branch}</code></div>}
           </div>
 
           <CustomFieldsDisplay fields={component.customFields} />
@@ -406,14 +424,14 @@ function ComponentCard({ project, component, reload }) {
             </select>
           </div>
           <div className="form-row">
-            <input placeholder="Provider (e.g. Vercel)" value={deployment.provider} onChange={e => setDeployment({ ...deployment, provider: e.target.value })} />
-            <input type="url" placeholder="Live URL" value={deployment.url} onChange={e => setDeployment({ ...deployment, url: e.target.value })} />
+            <input placeholder="Provider (e.g. Vercel, AWS)" value={deployment.provider} onChange={e => setDeployment({ ...deployment, provider: e.target.value })} />
+            <input type="url" placeholder="Live URL (e.g. https://api.mysite.com)" value={deployment.url} onChange={e => setDeployment({ ...deployment, url: e.target.value })} />
           </div>
           <CustomFieldBuilder fields={customFields} setFields={setCustomFields} />
         </AddForm>
       )}
 
-      <div className="deployments-grid" style={{ marginTop: 16 }}>
+      <div className="deployments-grid">
         {component.deployments?.map(d => (
           <Deployment key={d._id} project={project} component={component} deployment={d} reload={reload} />
         ))}
@@ -457,6 +475,7 @@ function Deployment({ project, component, deployment, reload }) {
             <input placeholder="Provider" value={editData.provider} onChange={e => setEditData({ ...editData, provider: e.target.value })} />
             <input type="url" placeholder="Live URL" value={editData.url} onChange={e => setEditData({ ...editData, url: e.target.value })} />
           </div>
+          <textarea placeholder="Notes" value={editData.notes} onChange={e => setEditData({ ...editData, notes: e.target.value })} />
           <CustomFieldBuilder fields={editCustomFields} setFields={setEditCustomFields} />
         </AddForm>
       </div>
@@ -471,9 +490,137 @@ function Deployment({ project, component, deployment, reload }) {
         <button className="btn-icon" onClick={startEdit} title="Edit"><EditIcon /></button>
       </div>
       {deployment.provider && <span className="provider-tag">{deployment.provider}</span>}
-      {deployment.url && <a href={deployment.url} target="_blank" rel="noreferrer" className="link flex-align" style={{ gap: 0 }}>Visit <ExternalLinkIcon /></a>}
+      {deployment.url && (
+        <div className="flex-align" style={{ gap: 4 }}>
+          <a href={deployment.url} target="_blank" rel="noreferrer" className="link flex-align" style={{ gap: 0 }}>
+            {deployment.url} <ExternalLinkIcon />
+          </a>
+          <CopyButton text={deployment.url} />
+        </div>
+      )}
       {deployment.notes && <p className="deployment-notes">{deployment.notes}</p>}
       <CustomFieldsDisplay fields={deployment.customFields} />
+    </div>
+  );
+}
+
+/* ==========================================================================
+   Deployments Matrix Tab (Live Cross-Project Endpoints)
+   ========================================================================== */
+function DeploymentsTab({ projects }) {
+  const [filterEnv, setFilterEnv] = useState('all');
+  const [search, setSearch] = useState('');
+
+  const allDeployments = [];
+  projects.forEach(p => {
+    (p.components || []).forEach(c => {
+      (c.deployments || []).forEach(d => {
+        allDeployments.push({
+          ...d,
+          projectId: p._id,
+          projectName: p.name,
+          componentId: c._id,
+          componentName: c.name,
+          componentType: c.type,
+          techStack: c.techStack,
+          hostingProvider: c.hostingProvider
+        });
+      });
+    });
+  });
+
+  const filtered = allDeployments.filter(d => {
+    const matchesEnv = filterEnv === 'all' || d.environment === filterEnv;
+    const query = search.toLowerCase();
+    const matchesSearch = !query || 
+      d.name?.toLowerCase().includes(query) ||
+      d.url?.toLowerCase().includes(query) ||
+      d.provider?.toLowerCase().includes(query) ||
+      d.projectName?.toLowerCase().includes(query) ||
+      d.componentName?.toLowerCase().includes(query);
+    return matchesEnv && matchesSearch;
+  });
+
+  return (
+    <div className="tab-content-container animate-fade-in">
+      <div className="section-header">
+        <div className="flex-align">
+          <h1 style={{ fontSize: 18, margin: 0 }}>Deployments Matrix</h1>
+          <span className="count-badge">{filtered.length} active</span>
+        </div>
+        <div className="action-bar-group">
+          <div className="search-bar">
+            <SearchIcon />
+            <input 
+              type="text" 
+              placeholder="Search by URL, project, host..." 
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+            />
+            {search && <button type="button" className="search-clear-btn" onClick={() => setSearch('')}><CloseIcon /></button>}
+          </div>
+        </div>
+      </div>
+
+      <div className="deployment-filters">
+        {['all', 'production', 'staging', 'development', 'preview'].map(env => (
+          <button 
+            key={env} 
+            className={`filter-pill ${filterEnv === env ? 'active' : ''}`}
+            onClick={() => setFilterEnv(env)}
+          >
+            <span style={{ textTransform: 'capitalize' }}>{env === 'all' ? 'All Environments' : env}</span>
+            <span className="pill-count">
+              {env === 'all' ? allDeployments.length : allDeployments.filter(d => d.environment === env).length}
+            </span>
+          </button>
+        ))}
+      </div>
+
+      {filtered.length === 0 ? (
+        <div className="empty-state">
+          <div className="empty-icon"><DeploymentsIcon /></div>
+          <h3>No Deployments Found</h3>
+          <p>{allDeployments.length === 0 ? 'Add components and deployments to your projects to see them in this matrix.' : 'Try changing your search or environment filter.'}</p>
+        </div>
+      ) : (
+        <div className="deployments-matrix">
+          {filtered.map((d, i) => (
+            <div key={d._id || i} className="matrix-row">
+              <div className="matrix-col-main">
+                <div className="flex-align" style={{ gap: 6 }}>
+                  <span className={`status-badge env-${d.environment}`}>{d.environment}</span>
+                  <strong className="matrix-title">{d.name}</strong>
+                </div>
+                <div className="matrix-subtitle">
+                  <span>{d.projectName}</span>
+                  <span className="matrix-dot">•</span>
+                  <span>{d.componentName}</span>
+                  {d.componentType && <span className="badge type-badge">{d.componentType}</span>}
+                </div>
+              </div>
+
+              <div className="matrix-col-url">
+                {d.url ? (
+                  <div className="matrix-url-box">
+                    <a href={d.url} target="_blank" rel="noreferrer" className="matrix-link">
+                      {d.url}
+                      <ExternalLinkIcon />
+                    </a>
+                    <CopyButton text={d.url} />
+                  </div>
+                ) : (
+                  <span className="text-muted" style={{ fontSize: 11.5 }}>No URL configured</span>
+                )}
+              </div>
+
+              <div className="matrix-col-meta">
+                {d.provider && <span className="provider-tag">{d.provider}</span>}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
@@ -502,12 +649,15 @@ function AuthScreen({ onAuthSuccess, theme, toggleTheme }) {
 
   return (
     <div className="auth-container">
-      <div className="auth-theme-toggle" style={{ position: 'absolute', top: 20, right: 20 }}>
+      <div className="auth-theme-toggle" style={{ position: 'absolute', top: 16, right: 16 }}>
         <button className="btn-icon" onClick={toggleTheme} title="Toggle Theme" style={{ display: 'flex', alignItems: 'center' }}>
           {theme === 'light' ? <MoonIcon /> : <SunIcon />}
         </button>
       </div>
       <div className="auth-card animate-slide-up">
+        <div className="brand-logo" style={{ marginBottom: 12 }}>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+        </div>
         <h1>{isLogin ? 'Welcome Back' : 'Create Account'}</h1>
         <p className="auth-subtitle">Sign in to manage your deployment registry.</p>
         
@@ -519,7 +669,7 @@ function AuthScreen({ onAuthSuccess, theme, toggleTheme }) {
           )}
           <input required type="email" placeholder="Email Address *" value={form.email} onChange={e => setForm({...form, email: e.target.value})} />
           <input required type="password" placeholder="Password *" value={form.password} onChange={e => setForm({...form, password: e.target.value})} />
-          <button type="submit" className="btn-primary full-width" disabled={isSubmitting} style={{ marginTop: 12 }}>
+          <button type="submit" className="btn-primary full-width" disabled={isSubmitting} style={{ marginTop: 10 }}>
             {isSubmitting ? (
               <><Spinner size="sm" /> <span>{isLogin ? 'Signing In...' : 'Registering...'}</span></>
             ) : (
@@ -541,7 +691,7 @@ function AuthScreen({ onAuthSuccess, theme, toggleTheme }) {
   );
 }
 
-function ProfileSettings({ user, setUser }) {
+function ProfileModal({ isOpen, onClose, user, setUser, onLogout }) {
   const [form, setForm] = useState({ name: user.name, email: user.email, password: '' });
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
@@ -559,7 +709,7 @@ function ProfileSettings({ user, setUser }) {
       });
       localStorage.setItem('token', data.token);
       setUser(data.user);
-      setForm(prev => ({ ...prev, password: '' })); // clear password field
+      setForm(prev => ({ ...prev, password: '' }));
       setMessage('Profile updated successfully!');
     } catch (err) {
       setError(err.message);
@@ -569,28 +719,34 @@ function ProfileSettings({ user, setUser }) {
   };
 
   return (
-    <div className="profile-container animate-fade-in">
-      <h2 style={{ marginBottom: 8 }}>Profile Settings</h2>
-      <p style={{ color: 'var(--text-secondary)', marginBottom: 24 }}>Update your account information and credentials.</p>
+    <Modal title="Account Settings" isOpen={isOpen} onClose={onClose}>
+      <p style={{ color: 'var(--text-secondary)', marginBottom: 16, fontSize: 12 }}>Update your account details and password.</p>
       
-      {message && <div style={{ padding: 12, background: 'var(--bg-subtle)', color: 'var(--text-primary)', borderLeft: '3px solid var(--accent-base)', marginBottom: 16 }}>{message}</div>}
+      {message && <div style={{ padding: 8, background: 'var(--status-success)', color: 'var(--status-success-text)', borderRadius: 'var(--radius-xs)', marginBottom: 12, fontSize: 12 }}>{message}</div>}
       {error && <div className="error-banner">{error}</div>}
       
       <form onSubmit={submit} className="compact-form">
-        <label style={{ display: 'block', marginBottom: 4, fontSize: 13, color: 'var(--text-secondary)' }}>Full Name</label>
+        <label style={{ display: 'block', marginBottom: 3, fontSize: 11.5, color: 'var(--text-secondary)' }}>Full Name</label>
         <input required value={form.name} onChange={e => setForm({...form, name: e.target.value})} />
         
-        <label style={{ display: 'block', marginBottom: 4, fontSize: 13, color: 'var(--text-secondary)' }}>Email Address</label>
+        <label style={{ display: 'block', marginBottom: 3, fontSize: 11.5, color: 'var(--text-secondary)' }}>Email Address</label>
         <input required type="email" value={form.email} onChange={e => setForm({...form, email: e.target.value})} />
         
-        <label style={{ display: 'block', marginBottom: 4, fontSize: 13, color: 'var(--text-secondary)' }}>New Password</label>
-        <input type="password" placeholder="Leave blank to keep current password" value={form.password} onChange={e => setForm({...form, password: e.target.value})} />
+        <label style={{ display: 'block', marginBottom: 3, fontSize: 11.5, color: 'var(--text-secondary)' }}>New Password</label>
+        <input type="password" placeholder="Leave blank to keep current" value={form.password} onChange={e => setForm({...form, password: e.target.value})} />
         
-        <button type="submit" className="btn-primary full-width" disabled={isSaving} style={{ marginTop: 16 }}>
+        <button type="submit" className="btn-primary full-width" disabled={isSaving} style={{ marginTop: 8 }}>
           {isSaving ? <><Spinner size="sm" /> <span>Saving Changes...</span></> : 'Save Changes'}
         </button>
+
+        <div style={{ marginTop: 20, paddingTop: 14, borderTop: '1px solid var(--border-subtle)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <span style={{ fontSize: 12, color: 'var(--text-secondary)' }}>Sign out of WebManager</span>
+          <button type="button" className="btn-secondary small" onClick={onLogout} style={{ color: 'var(--status-error-text)', display: 'inline-flex', alignItems: 'center', gap: 5 }}>
+            <LogoutIcon /> <span>Sign Out</span>
+          </button>
+        </div>
       </form>
-    </div>
+    </Modal>
   );
 }
 
@@ -621,11 +777,11 @@ function InsightsDashboard({ projects }) {
 
   return (
     <div className="tab-content-container animate-fade-in">
-      <div className="section-header" style={{ marginBottom: 32 }}>
-        <h1 style={{ fontSize: 24, margin: 0 }}>Insights & Analytics</h1>
+      <div className="section-header" style={{ marginBottom: 18 }}>
+        <h1 style={{ fontSize: 18, margin: 0 }}>Insights & Analytics</h1>
       </div>
 
-      <div className="stats-grid" style={{ marginBottom: 40 }}>
+      <div className="stats-grid" style={{ marginBottom: 20 }}>
         <div className="stat-card">
           <span className="stat-label">Total Projects</span>
           <span className="stat-value">{totalProjects}</span>
@@ -642,43 +798,43 @@ function InsightsDashboard({ projects }) {
 
       <div className="insights-grid">
         <div className="stat-card">
-          <h3 style={{ marginTop: 0, marginBottom: 16 }}>Component Types</h3>
+          <h3 style={{ marginTop: 0, marginBottom: 12, fontSize: 13.5 }}>Component Types</h3>
           {Object.entries(typeCounts).map(([type, count]) => (
-            <div key={type} className="flex-align" style={{ justifyContent: 'space-between', marginBottom: 8 }}>
-              <span style={{ textTransform: 'capitalize' }}>{type}</span>
+            <div key={type} className="flex-align" style={{ justifyContent: 'space-between', marginBottom: 6 }}>
+              <span style={{ textTransform: 'capitalize', fontSize: 12 }}>{type}</span>
               <span className="badge counter">{count}</span>
             </div>
           ))}
-          {Object.keys(typeCounts).length === 0 && <p style={{ color: 'var(--text-muted)' }}>No data</p>}
+          {Object.keys(typeCounts).length === 0 && <p style={{ color: 'var(--text-muted)', fontSize: 12 }}>No data</p>}
         </div>
 
         <div className="stat-card">
-          <h3 style={{ marginTop: 0, marginBottom: 16 }}>Top Tech Stacks</h3>
+          <h3 style={{ marginTop: 0, marginBottom: 12, fontSize: 13.5 }}>Top Tech Stacks</h3>
           {Object.entries(techStackCounts).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([stack, count]) => (
-            <div key={stack} className="flex-align" style={{ justifyContent: 'space-between', marginBottom: 8 }}>
-              <span>{stack}</span>
+            <div key={stack} className="flex-align" style={{ justifyContent: 'space-between', marginBottom: 6 }}>
+              <span style={{ fontSize: 12 }}>{stack}</span>
               <span className="badge counter">{count}</span>
             </div>
           ))}
-          {Object.keys(techStackCounts).length === 0 && <p style={{ color: 'var(--text-muted)' }}>No data</p>}
+          {Object.keys(techStackCounts).length === 0 && <p style={{ color: 'var(--text-muted)', fontSize: 12 }}>No data</p>}
         </div>
 
         <div className="stat-card">
-          <h3 style={{ marginTop: 0, marginBottom: 16 }}>Environments</h3>
+          <h3 style={{ marginTop: 0, marginBottom: 12, fontSize: 13.5 }}>Environments</h3>
           {Object.entries(envCounts).map(([env, count]) => (
-            <div key={env} className="flex-align" style={{ justifyContent: 'space-between', marginBottom: 8 }}>
+            <div key={env} className="flex-align" style={{ justifyContent: 'space-between', marginBottom: 6 }}>
               <span className={`status-badge env-${env}`}>{env}</span>
               <span className="badge counter">{count}</span>
             </div>
           ))}
-          {Object.keys(envCounts).length === 0 && <p style={{ color: 'var(--text-muted)' }}>No data</p>}
+          {Object.keys(envCounts).length === 0 && <p style={{ color: 'var(--text-muted)', fontSize: 12 }}>No data</p>}
         </div>
       </div>
     </div>
   );
 }
 
-function ProvidersTab() {
+function ProvidersTab({ projects }) {
   const [providers, setProviders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -754,22 +910,25 @@ function ProvidersTab() {
   return (
     <div className="tab-content-container animate-fade-in">
       <div className="section-header" style={{ marginBottom: 18 }}>
-        <h1 style={{ fontSize: 18, margin: 0 }}>Servers & Providers</h1>
+        <div className="flex-align">
+          <h1 style={{ fontSize: 18, margin: 0 }}>Infrastructure & Hosts</h1>
+          <span className="count-badge">{providers.length} registered</span>
+        </div>
         {!isAdding && (
-          <button className="btn-primary" onClick={() => setIsAdding(true)}>+ Add Provider</button>
+          <button className="btn-primary" onClick={() => setIsAdding(true)}>+ Add Host</button>
         )}
       </div>
       
       {error && <div className="error-banner">{error}</div>}
 
       {isAdding && (
-        <div style={{ marginBottom: 20 }}>
+        <div style={{ marginBottom: 16 }}>
           <AddForm title={editingId ? "Edit Provider" : "Add Provider"} submitLabel={isSaving ? "Saving..." : "Save Provider"} onSubmit={submit} onCancel={() => { setIsAdding(false); setEditingId(null); }}>
             <div className="form-row">
-              <input required placeholder="Provider Name *" value={form.name} onChange={e => setForm({...form, name: e.target.value})} />
+              <input required placeholder="Provider Name * (e.g. AWS Production, Vercel)" value={form.name} onChange={e => setForm({...form, name: e.target.value})} />
               <input type="url" placeholder="Login / Dashboard URL" value={form.url} onChange={e => setForm({...form, url: e.target.value})} />
             </div>
-            <textarea placeholder="Notes (e.g. Account email, purpose)" value={form.notes} onChange={e => setForm({...form, notes: e.target.value})} />
+            <textarea placeholder="Notes (e.g. Account owner, cluster ID, region)" value={form.notes} onChange={e => setForm({...form, notes: e.target.value})} />
             <CustomFieldBuilder fields={customFields} setFields={setCustomFields} />
           </AddForm>
         </div>
@@ -780,26 +939,66 @@ function ProvidersTab() {
           <ProviderSkeletonList />
         ) : providers.length === 0 && !isAdding ? (
            <div className="empty-state">
-             <div className="empty-icon"><FolderIcon /></div>
-             <h3>No Providers</h3>
-             <p>Track your AWS, Vercel, or database servers here.</p>
+             <div className="empty-icon"><ServersIcon /></div>
+             <h3>No Infrastructure Providers</h3>
+             <p>Register your cloud hosts, VPS instances, or managed database providers here.</p>
            </div>
         ) : (
           <div className="stats-grid">
-            {providers.map(p => (
-              <div key={p._id} className="stat-card" style={{ display: 'block' }}>
-                <div className="flex-align" style={{ justifyContent: 'space-between', marginBottom: 12 }}>
-                  <h3 style={{ margin: 0, fontSize: 16 }}>{p.name}</h3>
-                  <div className="flex-align">
-                    <button className="btn-icon" onClick={() => startEdit(p)}><EditIcon /></button>
-                    <button className="btn-icon" onClick={() => remove(p._id)}><CloseIcon /></button>
+            {providers.map(p => {
+              // Calculate linked services
+              const linked = [];
+              projects.forEach(proj => {
+                (proj.components || []).forEach(comp => {
+                  if (comp.hostingProvider?.toLowerCase() === p.name.toLowerCase()) {
+                    linked.push({ proj: proj.name, comp: comp.name, type: comp.type });
+                  }
+                  (comp.deployments || []).forEach(dep => {
+                    if (dep.provider?.toLowerCase() === p.name.toLowerCase() && !linked.some(x => x.comp === comp.name)) {
+                      linked.push({ proj: proj.name, comp: comp.name, type: comp.type });
+                    }
+                  });
+                });
+              });
+
+              return (
+                <div key={p._id} className="stat-card" style={{ display: 'block' }}>
+                  <div className="flex-align" style={{ justifyContent: 'space-between', marginBottom: 8 }}>
+                    <div className="flex-align">
+                      <span className="badge counter" style={{ padding: '2px 5px' }}><ServersIcon /></span>
+                      <h3 style={{ margin: 0, fontSize: 14 }}>{p.name}</h3>
+                    </div>
+                    <div className="flex-align">
+                      <button className="btn-icon" onClick={() => startEdit(p)}><EditIcon /></button>
+                      <button className="btn-icon" onClick={() => remove(p._id)}><CloseIcon /></button>
+                    </div>
+                  </div>
+                  {p.url && (
+                    <a href={p.url} target="_blank" rel="noreferrer" className="link flex-align" style={{ gap: 0, marginBottom: 6, fontSize: 12 }}>
+                      Console Dashboard <ExternalLinkIcon />
+                    </a>
+                  )}
+                  {p.notes && <p style={{ fontSize: 12, color: 'var(--text-secondary)', marginBottom: 8 }}>{p.notes}</p>}
+                  <CustomFieldsDisplay fields={p.customFields} />
+
+                  <div className="provider-linked-section">
+                    <span className="stat-label" style={{ fontSize: 10 }}>Linked Components ({linked.length})</span>
+                    {linked.length > 0 ? (
+                      <div className="linked-tags">
+                        {linked.slice(0, 3).map((item, idx) => (
+                          <span key={idx} className="badge tag" style={{ fontSize: 10.5 }}>
+                            {item.proj} / {item.comp}
+                          </span>
+                        ))}
+                        {linked.length > 3 && <span className="badge counter">+{linked.length - 3}</span>}
+                      </div>
+                    ) : (
+                      <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 2 }}>No components linked yet</div>
+                    )}
                   </div>
                 </div>
-                {p.url && <a href={p.url} target="_blank" rel="noreferrer" className="link flex-align" style={{ gap: 0, marginBottom: 8, fontSize: 13 }}>Go to Dashboard <ExternalLinkIcon /></a>}
-                {p.notes && <p style={{ fontSize: 13, color: 'var(--text-secondary)', marginBottom: 12 }}>{p.notes}</p>}
-                <CustomFieldsDisplay fields={p.customFields} />
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </div>
@@ -813,8 +1012,9 @@ export default function App() {
   const [projects, setProjects] = useState([]);
   const [error, setError] = useState('');
   
-  // Tab states
+  // Tab states: 'projects' | 'deployments' | 'infrastructure' | 'insights'
   const [activeTab, setActiveTab] = useState('projects');
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   
   // Dashboard states
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -921,6 +1121,7 @@ export default function App() {
     localStorage.removeItem('token');
     setUser(null);
     setProjects([]);
+    setIsProfileModalOpen(false);
   };
 
   if (loading) return <AppLoadingScreen />;
@@ -931,11 +1132,16 @@ export default function App() {
   />;
 
   // Computed Stats
-  const activeDeploymentsCount = projects.reduce((acc, p) => 
-    acc + (p.components || []).reduce((pacc, pt) => 
-      pacc + (pt.deployments || []).filter(d => d.environment === 'production').length, 0
-    ), 0
-  );
+  let totalDeploymentsCount = 0;
+  let productionDeploymentsCount = 0;
+  projects.forEach(p => {
+    (p.components || []).forEach(c => {
+      (c.deployments || []).forEach(d => {
+        totalDeploymentsCount++;
+        if (d.environment === 'production') productionDeploymentsCount++;
+      });
+    });
+  });
 
   const filteredProjects = projects.filter(p => 
     p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -949,39 +1155,40 @@ export default function App() {
       <nav className="top-nav">
         <div className="nav-brand">
           <div className="brand-logo">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
           </div>
           <span className="brand-text">WebManager</span>
         </div>
+
         <div className="nav-tabs desktop-only">
           <button className={`tab-btn ${activeTab === 'projects' ? 'active' : ''}`} onClick={() => setActiveTab('projects')}>
             <ProjectsIcon />
             <span>Projects</span>
+            <span className="tab-badge">{projects.length}</span>
+          </button>
+          <button className={`tab-btn ${activeTab === 'deployments' ? 'active' : ''}`} onClick={() => setActiveTab('deployments')}>
+            <DeploymentsIcon />
+            <span>Deployments</span>
+            <span className="tab-badge">{totalDeploymentsCount}</span>
+          </button>
+          <button className={`tab-btn ${activeTab === 'infrastructure' ? 'active' : ''}`} onClick={() => setActiveTab('infrastructure')}>
+            <ServersIcon />
+            <span>Infrastructure</span>
           </button>
           <button className={`tab-btn ${activeTab === 'insights' ? 'active' : ''}`} onClick={() => setActiveTab('insights')}>
             <InsightsIcon />
             <span>Insights</span>
           </button>
-          <button className={`tab-btn ${activeTab === 'providers' ? 'active' : ''}`} onClick={() => setActiveTab('providers')}>
-            <ServersIcon />
-            <span>Servers</span>
-          </button>
-          <button className={`tab-btn ${activeTab === 'profile' ? 'active' : ''}`} onClick={() => setActiveTab('profile')}>
-            <ProfileIcon />
-            <span>Profile</span>
-          </button>
         </div>
+
         <div className="nav-user">
           <button className="btn-icon theme-toggle-btn" onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')} title="Toggle Theme" aria-label="Toggle Theme">
             {theme === 'light' ? <MoonIcon /> : <SunIcon />}
           </button>
-          <div className="user-profile-badge" title={user.email}>
+          
+          <button className="user-profile-badge clickable" onClick={() => setIsProfileModalOpen(true)} title="Account Settings">
             <span className="user-avatar">{user.name?.charAt(0).toUpperCase() || 'U'}</span>
             <span className="user-name desktop-only">{user.name}</span>
-          </div>
-          <button className="btn-secondary small signout-btn" onClick={logout} title="Sign Out">
-            <span className="desktop-only">Sign Out</span>
-            <span className="mobile-only" style={{ display: 'flex', alignItems: 'center' }}><LogoutIcon /></span>
           </button>
         </div>
       </nav>
@@ -989,18 +1196,18 @@ export default function App() {
       <main className="dashboard">
         {error && <div className="error-banner">{error}</div>}
         
-        {activeTab === 'profile' && <ProfileSettings user={user} setUser={setUser} />}
+        {activeTab === 'deployments' && <DeploymentsTab projects={projects} />}
+        {activeTab === 'infrastructure' && <ProvidersTab projects={projects} />}
         {activeTab === 'insights' && <InsightsDashboard projects={projects} />}
-        {activeTab === 'providers' && <ProvidersTab />}
         {activeTab === 'projects' && (
           <div className="dashboard-main animate-slide-up">
             <div className="section-header project-section-header">
               <div className="flex-align title-group">
-                <h1 style={{ fontSize: 24, margin: 0 }}>Projects</h1>
+                <h1 style={{ fontSize: 18, margin: 0 }}>Projects</h1>
                 <span className="count-badge">{filteredProjects.length}</span>
-                {activeDeploymentsCount > 0 && (
-                  <span className="status-badge env-production" style={{ fontSize: 11, padding: '2px 8px' }} title="Active Production Deployments">
-                    {activeDeploymentsCount} live
+                {productionDeploymentsCount > 0 && (
+                  <span className="status-badge env-production" style={{ fontSize: 10, padding: '2px 7px' }} title="Active Production Deployments">
+                    {productionDeploymentsCount} live
                   </span>
                 )}
               </div>
@@ -1025,29 +1232,39 @@ export default function App() {
               </div>
             </div>
           
-          <div className="projects-feed">
-            {isProjectsLoading && projects.length === 0 ? (
-              <ProjectSkeletonList />
-            ) : filteredProjects.length ? (
-              filteredProjects.map(p => <Project project={p} reload={loadProjects} key={p._id} onEditProject={handleOpenEditProject} />)
-            ) : (
-              <div className="empty-state">
-                <div className="empty-icon"><FolderIcon /></div>
-                <h3>No Projects Found</h3>
-                <p>{searchQuery ? 'Try adjusting your search criteria.' : 'Create your first project to start tracking your deployments.'}</p>
-              </div>
-            )}
+            <div className="projects-feed">
+              {isProjectsLoading && projects.length === 0 ? (
+                <ProjectSkeletonList />
+              ) : filteredProjects.length ? (
+                filteredProjects.map(p => <Project project={p} reload={loadProjects} key={p._id} onEditProject={handleOpenEditProject} />)
+              ) : (
+                <div className="empty-state">
+                  <div className="empty-icon"><FolderIcon /></div>
+                  <h3>No Projects Found</h3>
+                  <p>{searchQuery ? 'Try adjusting your search criteria.' : 'Create your first project to start tracking your deployments.'}</p>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
         )}
       </main>
 
+      {/* Profile / Account Settings Modal */}
+      <ProfileModal 
+        isOpen={isProfileModalOpen} 
+        onClose={() => setIsProfileModalOpen(false)} 
+        user={user} 
+        setUser={setUser} 
+        onLogout={logout} 
+      />
+
+      {/* Project Creation / Edit Modal */}
       <Modal title={isEditingProject ? "Edit Project" : "Create New Project"} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <form onSubmit={submitProject} className="compact-form">
-          <input required placeholder="Project Name * (e.g. Portfolio)" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} />
+          <input required placeholder="Project Name * (e.g. WebManager)" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} />
           <div className="form-row">
-            <input placeholder="Frameworks (e.g. React, Django)" value={form.frameworks} onChange={e => setForm({ ...form, frameworks: e.target.value })} />
-            <input placeholder="Primary Language (e.g. JS, Python)" value={form.primaryLanguage} onChange={e => setForm({ ...form, primaryLanguage: e.target.value })} />
+            <input placeholder="Frameworks (e.g. React, Express)" value={form.frameworks} onChange={e => setForm({ ...form, frameworks: e.target.value })} />
+            <input placeholder="Primary Language (e.g. JavaScript, Python)" value={form.primaryLanguage} onChange={e => setForm({ ...form, primaryLanguage: e.target.value })} />
           </div>
           <div className="form-row">
             <input type="url" placeholder="Repository URL" value={form.repositoryUrl} onChange={e => setForm({ ...form, repositoryUrl: e.target.value })} />
@@ -1055,7 +1272,7 @@ export default function App() {
           </div>
           <textarea placeholder="Brief description of the project..." value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} />
           <CustomFieldBuilder fields={projectCustomFields} setFields={setProjectCustomFields} />
-          <button type="submit" className="btn-primary full-width" disabled={isSubmittingProject} style={{ marginTop: 12 }}>
+          <button type="submit" className="btn-primary full-width" disabled={isSubmittingProject} style={{ marginTop: 10 }}>
             {isSubmittingProject ? (
               <><Spinner size="sm" /> <span>{isEditingProject ? "Saving Changes..." : "Creating Project..."}</span></>
             ) : (
@@ -1071,17 +1288,21 @@ export default function App() {
           <ProjectsIcon />
           <span>Projects</span>
         </button>
+        <button className={`bottom-tab-btn ${activeTab === 'deployments' ? 'active' : ''}`} onClick={() => setActiveTab('deployments')} aria-label="Deployments">
+          <DeploymentsIcon />
+          <span>Deploy</span>
+        </button>
+        <button className={`bottom-tab-btn ${activeTab === 'infrastructure' ? 'active' : ''}`} onClick={() => setActiveTab('infrastructure')} aria-label="Infrastructure">
+          <ServersIcon />
+          <span>Servers</span>
+        </button>
         <button className={`bottom-tab-btn ${activeTab === 'insights' ? 'active' : ''}`} onClick={() => setActiveTab('insights')} aria-label="Insights">
           <InsightsIcon />
           <span>Insights</span>
         </button>
-        <button className={`bottom-tab-btn ${activeTab === 'providers' ? 'active' : ''}`} onClick={() => setActiveTab('providers')} aria-label="Servers">
-          <ServersIcon />
-          <span>Servers</span>
-        </button>
-        <button className={`bottom-tab-btn ${activeTab === 'profile' ? 'active' : ''}`} onClick={() => setActiveTab('profile')} aria-label="Profile">
+        <button className="bottom-tab-btn" onClick={() => setIsProfileModalOpen(true)} aria-label="Account">
           <ProfileIcon />
-          <span>Profile</span>
+          <span>Account</span>
         </button>
       </nav>
     </div>
