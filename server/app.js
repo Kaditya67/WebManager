@@ -2,7 +2,6 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var cors = require('cors');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -10,25 +9,6 @@ var projectsRouter = require('./routes/projects');
 var providersRouter = require('./routes/providers');
 
 var app = express();
-
-// CORS — allow requests from the deployed frontend URL (and localhost for dev).
-// Set the ALLOWED_ORIGIN env var in production to your Vercel frontend URL,
-// e.g. https://web-manager.vercel.app
-var allowedOrigins = [
-  'http://localhost:5173',
-  'http://localhost:4173',
-  process.env.ALLOWED_ORIGIN,
-].filter(Boolean);
-
-app.use(cors({
-  origin: function (origin, callback) {
-    // Allow requests with no origin (curl, Postman, same-origin)
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.includes(origin)) return callback(null, true);
-    callback(new Error('Not allowed by CORS: ' + origin));
-  },
-  credentials: true,
-}));
 
 app.use(logger('dev'));
 app.use(express.json());
