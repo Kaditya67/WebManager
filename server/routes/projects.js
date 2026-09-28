@@ -68,4 +68,30 @@ router.put('/:projectId/components/:componentId/deployments/:deploymentId', asyn
   } catch (error) { next(error); }
 });
 
+router.delete('/:projectId/components/:componentId', async (req, res, next) => {
+  try {
+    const project = await Project.findOne({ _id: req.params.projectId, userId: req.user._id });
+    if (!project) return missing(res, 'Project not found');
+    const component = project.components.id(req.params.componentId);
+    if (!component) return missing(res, 'Component not found');
+    component.deleteOne();
+    await project.save();
+    res.status(204).end();
+  } catch (error) { next(error); }
+});
+
+router.delete('/:projectId/components/:componentId/deployments/:deploymentId', async (req, res, next) => {
+  try {
+    const project = await Project.findOne({ _id: req.params.projectId, userId: req.user._id });
+    if (!project) return missing(res, 'Project not found');
+    const component = project.components.id(req.params.componentId);
+    if (!component) return missing(res, 'Component not found');
+    const deployment = component.deployments.id(req.params.deploymentId);
+    if (!deployment) return missing(res, 'Deployment not found');
+    deployment.deleteOne();
+    await project.save();
+    res.status(204).end();
+  } catch (error) { next(error); }
+});
+
 module.exports = router;

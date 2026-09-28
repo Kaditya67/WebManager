@@ -35,16 +35,36 @@ const Spinner = ({ size = 'sm', className = '' }) => {
 
 function CopyButton({ text }) {
   const [copied, setCopied] = useState(false);
+  const [error, setError] = useState(false);
   const handleCopy = (e) => {
     e.stopPropagation();
-    navigator.clipboard.writeText(text);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 1600);
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text)
+        .then(() => { setCopied(true); setTimeout(() => setCopied(false), 1600); })
+        .catch(() => { setError(true); setTimeout(() => setError(false), 1600); });
+    } else {
+      // Fallback for HTTP contexts
+      try {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.cssText = 'position:fixed;top:-9999px;left:-9999px;opacity:0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 1600);
+      } catch {
+        setError(true);
+        setTimeout(() => setError(false), 1600);
+      }
+    }
   };
   return (
-    <button type="button" className={`btn-icon copy-btn ${copied ? 'copied' : ''}`} onClick={handleCopy} title={copied ? 'Copied!' : 'Copy to clipboard'}>
+    <button type="button" className={`btn-icon copy-btn ${copied ? 'copied' : error ? 'copy-error' : ''}`} onClick={handleCopy} title={copied ? 'Copied!' : error ? 'Copy failed' : 'Copy to clipboard'}>
       {copied ? <CheckIcon /> : <CopyIcon />}
       {copied && <span className="copied-tooltip">Copied!</span>}
+      {error && <span className="copied-tooltip" style={{ background: 'var(--status-error-text)' }}>Failed</span>}
     </button>
   );
 }
@@ -224,6 +244,7 @@ function AddForm({ title, children, onSubmit, submitLabel, onCancel }) {
 function Project({ project, reload, onEditProject }) {
   const [open, setOpen] = useState(false);
   const [isAddingComponent, setIsAddingComponent] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
   const [component, setComponent] = useState({ name: '', type: 'frontend', techStack: '', databaseUsed: '', hostingProvider: '', internalPort: '', repositoryUrl: '', branch: '', notes: '' });
   const [customFields, setCustomFields] = useState([]);
   
@@ -240,10 +261,8 @@ function Project({ project, reload, onEditProject }) {
   };
   
   const remove = async () => { 
-    if (confirm(`Delete ${project.name}?`)) { 
-      await api(`/projects/${project._id}`, { method: 'DELETE' }); 
-      reload(); 
-    } 
+    await api(`/projects/${project._id}`, { method: 'DELETE' }); 
+    reload(); 
   };
   
   return (
@@ -256,7 +275,14 @@ function Project({ project, reload, onEditProject }) {
         <div className="project-actions">
           <span className="badge counter">{project.components?.length || 0} components</span>
           <button className="btn-icon" onClick={(e) => { e.stopPropagation(); onEditProject(project); }} title="Edit"><EditIcon /></button>
-          <button className="btn-delete" onClick={(e) => { e.stopPropagation(); remove(); }}>Delete</button>
+          {confirmDelete ? (
+            <>
+              <button className="btn-confirm-danger" onClick={(e) => { e.stopPropagation(); remove(); }}>Yes, delete</button>
+              <button className="btn-secondary small" onClick={(e) => { e.stopPropagation(); setConfirmDelete(false); }}>Cancel</button>
+            </>
+          ) : (
+            <button className="btn-delete" onClick={(e) => { e.stopPropagation(); setConfirmDelete(true); }}>Delete</button>
+          )}
         </div>
       </div>
       
@@ -328,6 +354,7 @@ function ComponentCard({ project, component, reload }) {
   const [isEditing, setIsEditing] = useState(false);
   const [editData, setEditData] = useState({ name: '', type: 'frontend', techStack: '', databaseUsed: '', hostingProvider: '', internalPort: '', repositoryUrl: '', branch: '', notes: '' });
   const [editCustomFields, setEditCustomFields] = useState([]);
+  const [confirmDelete, setConfirmDelete] = useState(false);
 
   const add = async e => { 
     e.preventDefault(); 
@@ -358,6 +385,11 @@ function ComponentCard({ project, component, reload }) {
       body: JSON.stringify({ ...editData, customFields: editCustomFields })
     });
     setIsEditing(false);
+    reload();
+  };
+
+  const deleteComponent = async () => {
+    await api(`/projects/${project._id}/components/${component._id}`, { method: 'DELETE' });
     reload();
   };
   
@@ -400,6 +432,16 @@ function ComponentCard({ project, component, reload }) {
                 <button className="btn-secondary tiny" onClick={() => setIsAddingDeployment(true)}>+ Deploy</button>
               )}
               <button className="btn-icon" onClick={startEdit} title="Edit"><EditIcon /></button>
+              {confirmDelete ? (
+                <>
+                  <button className="btn-confirm-danger" style={{ fontSize: 10, padding: '2px 6px', height: 22 }} onClick={deleteComponent}>Delete?</button>
+                  <button className="btn-icon" onClick={() => setConfirmDelete(false)} title="Cancel"><CloseIcon /></button>
+                </>
+              ) : (
+                <button className="btn-icon" style={{ color: 'var(--status-error-text)' }} onClick={() => setConfirmDelete(true)} title="Delete component">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+                </button>
+              )}
             </div>
           </div>
           
@@ -427,6 +469,7 @@ function ComponentCard({ project, component, reload }) {
             <input placeholder="Provider (e.g. Vercel, AWS)" value={deployment.provider} onChange={e => setDeployment({ ...deployment, provider: e.target.value })} />
             <input type="url" placeholder="Live URL (e.g. https://api.mysite.com)" value={deployment.url} onChange={e => setDeployment({ ...deployment, url: e.target.value })} />
           </div>
+          <textarea placeholder="Notes (optional)" value={deployment.notes} onChange={e => setDeployment({ ...deployment, notes: e.target.value })} />
           <CustomFieldBuilder fields={customFields} setFields={setCustomFields} />
         </AddForm>
       )}
@@ -444,6 +487,7 @@ function Deployment({ project, component, deployment, reload }) {
   const [isEditing, setIsEditing] = useState(false);
   const [editData, setEditData] = useState({ name: '', environment: 'production', provider: '', url: '', notes: '' });
   const [editCustomFields, setEditCustomFields] = useState([]);
+  const [confirmDelete, setConfirmDelete] = useState(false);
 
   const startEdit = () => {
     setEditData({ name: deployment.name, environment: deployment.environment, provider: deployment.provider || '', url: deployment.url || '', notes: deployment.notes || '' });
@@ -458,6 +502,11 @@ function Deployment({ project, component, deployment, reload }) {
       body: JSON.stringify({ ...editData, customFields: editCustomFields })
     });
     setIsEditing(false);
+    reload();
+  };
+
+  const deleteDeployment = async () => {
+    await api(`/projects/${project._id}/components/${component._id}/deployments/${deployment._id}`, { method: 'DELETE' });
     reload();
   };
 
@@ -488,6 +537,16 @@ function Deployment({ project, component, deployment, reload }) {
         <span className={`status-badge env-${deployment.environment}`}>{deployment.environment}</span>
         <b>{deployment.name}</b>
         <button className="btn-icon" onClick={startEdit} title="Edit"><EditIcon /></button>
+        {confirmDelete ? (
+          <>
+            <button className="btn-confirm-danger" style={{ fontSize: 10, padding: '2px 6px', height: 20 }} onClick={deleteDeployment}>Delete?</button>
+            <button className="btn-icon" onClick={() => setConfirmDelete(false)} title="Cancel"><CloseIcon /></button>
+          </>
+        ) : (
+          <button className="btn-icon" style={{ color: 'var(--status-error-text)', opacity: 0.7 }} onClick={() => setConfirmDelete(true)} title="Delete deployment">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
+          </button>
+        )}
       </div>
       {deployment.provider && <span className="provider-tag">{deployment.provider}</span>}
       {deployment.url && (
@@ -545,8 +604,8 @@ function DeploymentsTab({ projects }) {
     <div className="tab-content-container animate-fade-in">
       <div className="section-header">
         <div className="flex-align">
-          <h1 style={{ fontSize: 18, margin: 0 }}>Deployments Matrix</h1>
-          <span className="count-badge">{filtered.length} active</span>
+          <h1 style={{ fontSize: 18, margin: 0 }}>Deployments</h1>
+          <span className="count-badge">{filtered.length} {filterEnv === 'all' ? 'total' : filterEnv}</span>
         </div>
         <div className="action-bar-group">
           <div className="search-bar">
@@ -579,9 +638,11 @@ function DeploymentsTab({ projects }) {
 
       {filtered.length === 0 ? (
         <div className="empty-state">
-          <div className="empty-icon"><DeploymentsIcon /></div>
+          <div className="empty-icon">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          </div>
           <h3>No Deployments Found</h3>
-          <p>{allDeployments.length === 0 ? 'Add components and deployments to your projects to see them in this matrix.' : 'Try changing your search or environment filter.'}</p>
+          <p>{allDeployments.length === 0 ? 'Add components and deployments to your projects to see them here.' : 'Try changing your search or environment filter.'}</p>
         </div>
       ) : (
         <div className="deployments-matrix">
@@ -845,6 +906,7 @@ function ProvidersTab({ projects }) {
 
   const [editingId, setEditingId] = useState(null);
   const [isSaving, setIsSaving] = useState(false);
+  const [confirmDeleteId, setConfirmDeleteId] = useState(null);
 
   const loadProviders = async () => {
     try {
@@ -901,10 +963,9 @@ function ProvidersTab({ projects }) {
   };
 
   const remove = async (id) => {
-    if (confirm('Delete this provider?')) {
-      await api(`/providers/${id}`, { method: 'DELETE' });
-      await loadProviders();
-    }
+    await api(`/providers/${id}`, { method: 'DELETE' });
+    setConfirmDeleteId(null);
+    await loadProviders();
   };
 
   return (
@@ -970,7 +1031,14 @@ function ProvidersTab({ projects }) {
                     </div>
                     <div className="flex-align">
                       <button className="btn-icon" onClick={() => startEdit(p)}><EditIcon /></button>
-                      <button className="btn-icon" onClick={() => remove(p._id)}><CloseIcon /></button>
+                      {confirmDeleteId === p._id ? (
+                        <>
+                          <button className="btn-confirm-danger" style={{ fontSize: 10, padding: '2px 7px', height: 22 }} onClick={() => remove(p._id)}>Yes, delete</button>
+                          <button className="btn-icon" onClick={() => setConfirmDeleteId(null)} title="Cancel"><CloseIcon /></button>
+                        </>
+                      ) : (
+                        <button className="btn-icon" style={{ color: 'var(--status-error-text)' }} onClick={() => setConfirmDeleteId(p._id)} title="Delete provider"><CloseIcon /></button>
+                      )}
                     </div>
                   </div>
                   {p.url && (

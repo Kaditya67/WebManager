@@ -4,11 +4,12 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "cv01", "cv03", "cv04", "cv11", "ss01";
   letter-spacing: -0.012em;
   
-  /* Zoomed-Out Developer Typography */
-  font-size: 13px;
-  line-height: 1.45;
+  /* Developer Typography — compact but readable */
+  font-size: clamp(12px, 1.1vw, 13.5px);
+  line-height: 1.5;
   
   /* Light Theme (Clean Vercel/Linear Palette) */
   --bg-base: #f8fafc;
@@ -105,8 +106,8 @@
   padding: 0;
 }
 
-/* Global Zoom Out for Desktop (Gives sleek developer density) */
-@media (min-width: 769px) {
+/* Global Zoom Out for larger desktops (sleek developer density) */
+@media (min-width: 1024px) {
   html {
     zoom: 0.90;
   }
