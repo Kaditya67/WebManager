@@ -177,7 +177,7 @@ This project is pre-configured for Vercel deployment using a split monorepo setu
 1. Go back to Vercel and click **Add New Project**.
 2. Import the same repository again, but set the **Root Directory** to client.
 3. In the **Environment Variables** section, add:
-   - VITE_API_URL (set this to the server URL you copied in step 1, e.g., https://webmanager-api.vercel.app)
+   - API_URL (set this to the server URL you copied in step 1, e.g., https://webmanager-api.vercel.app)
 4. Click **Deploy**. Vercel will build the React app and use client/vercel.json for SPA routing.
 5. Once deployed, copy the frontend URL (e.g., https://webmanager.vercel.app).
 

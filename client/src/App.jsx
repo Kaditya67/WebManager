@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import './App.css';
 
-// In production (Vercel), VITE_API_URL is set to the deployed backend URL.
+// In production (Vercel), API_URL is set to the deployed backend URL.
 // In local dev, it's empty and Vite's proxy forwards /api → localhost:5000.
-const API_BASE = import.meta.env.VITE_API_URL || '';
+const API_BASE = import.meta.env.API_URL || '';
 
 const types = ['frontend', 'backend', 'database', 'worker', 'mobile', 'other'];
 const environments = ['production', 'staging', 'development', 'preview', 'other'];
