@@ -8,7 +8,7 @@
   letter-spacing: -0.012em;
   
   /* Developer Typography — compact but readable */
-  font-size: clamp(12px, 1.1vw, 13.5px);
+  font-size: clamp(13px, 1.05vw, 14.5px);
   line-height: 1.5;
   
   /* Light Theme (Clean Vercel/Linear Palette) */
