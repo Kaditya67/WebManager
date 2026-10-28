@@ -31,6 +31,62 @@ const PlusIcon = () => <svg width="13" height="13" viewBox="0 0 24 24" fill="non
 const CopyIcon = () => <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="13" height="13" x="9" y="9" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>;
 const CheckIcon = () => <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>;
 
+
+function AlertNotification({ type = 'error', message, onClose, duration = 10000, style = {} }) {
+  useEffect(() => {
+    if (!message || duration <= 0) return;
+    const timer = setTimeout(() => {
+      if (onClose) onClose();
+    }, duration);
+    return () => clearTimeout(timer);
+  }, [message, duration, onClose]);
+
+  if (!message) return null;
+
+  const isSuccess = type === 'success';
+
+  return (
+    <div
+      className={isSuccess ? "status-badge env-production" : "error-banner"}
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        gap: 8,
+        padding: '8px 12px',
+        marginBottom: 12,
+        fontSize: 12,
+        borderRadius: 'var(--radius-sm)',
+        transition: 'all 0.2s ease',
+        ...style
+      }}
+    >
+      <span style={{ flex: 1, wordBreak: 'break-word' }}>{message}</span>
+      {onClose && (
+        <button
+          type="button"
+          className="btn-icon"
+          onClick={onClose}
+          title="Dismiss notification"
+          style={{
+            cursor: 'pointer',
+            padding: 2,
+            lineHeight: 1,
+            opacity: 0.75,
+            background: 'transparent',
+            border: 'none',
+            color: 'inherit',
+            display: 'inline-flex',
+            alignItems: 'center'
+          }}
+        >
+          <CloseIcon />
+        </button>
+      )}
+    </div>
+  );
+}
+
 /* Loading Spinners & Skeleton Components */
 const Spinner = ({ size = 'sm', className = '' }) => {
   const dim = size === 'lg' ? 28 : size === 'md' ? 18 : 12;
@@ -757,7 +813,7 @@ function AuthScreen({ onAuthSuccess, theme, toggleTheme }) {
             <p className="auth-subtitle">Sign in to your WebManager account</p>
           </div>
           
-          {error && <div className="error-banner">{error}</div>}
+          <AlertNotification message={error} onClose={() => setError('')} />
           
           <form onSubmit={submit} className="auth-form">
             {!isLogin && (
@@ -829,7 +885,7 @@ function ProfileModal({ isOpen, onClose, user, setUser, onLogout }) {
       <p style={{ color: 'var(--text-secondary)', marginBottom: 16, fontSize: 12 }}>Update your account details and password.</p>
       
       {message && <div style={{ padding: 8, background: 'var(--status-success)', color: 'var(--status-success-text)', borderRadius: 'var(--radius-xs)', marginBottom: 12, fontSize: 12 }}>{message}</div>}
-      {error && <div className="error-banner">{error}</div>}
+      <AlertNotification message={error} onClose={() => setError('')} />
       
       <form onSubmit={submit} className="compact-form">
         <label style={{ display: 'block', marginBottom: 3, fontSize: 11.5, color: 'var(--text-secondary)' }}>Full Name</label>
@@ -1025,7 +1081,7 @@ function ProvidersTab({ projects }) {
         )}
       </div>
       
-      {error && <div className="error-banner">{error}</div>}
+      <AlertNotification message={error} onClose={() => setError('')} />
 
       {isAdding && (
         <div style={{ marginBottom: 16 }}>
@@ -1738,7 +1794,7 @@ export default function App() {
           </button>
         </div>
 
-        {projectJsonError && <div className="error-banner" style={{ marginBottom: 10 }}>{projectJsonError}</div>}
+        <AlertNotification message={projectJsonError} onClose={() => setProjectJsonError('')} />
 
         <form onSubmit={submitProject} className="compact-form">
           {projectEditMode === 'json' ? (
