@@ -9,6 +9,11 @@ const types = ['frontend', 'backend', 'database', 'worker', 'mobile', 'other'];
 const environments = ['production', 'staging', 'development', 'preview', 'other'];
 
 /* Icons */
+const ZapIcon = () => <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>;
+const CodeIcon = () => <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>;
+const FileTextIcon = () => <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>;
+const GitHubIcon = () => <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>;
+
 const SunIcon = () => <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>;
 const MoonIcon = () => <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>;
 const CloseIcon = () => <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>;
@@ -1257,21 +1262,21 @@ function FastEntryModal({ isOpen, onClose, onRefresh }) {
   };
 
   return (
-    <Modal title="⚡ Fast Data Entry & Importer" isOpen={isOpen} onClose={onClose}>
+    <Modal title="Quick Import & Fast Data Entry" isOpen={isOpen} onClose={onClose}>
       <div style={{ display: 'flex', gap: 8, marginBottom: 16, borderBottom: '1px solid var(--border-subtle)', paddingBottom: 10 }}>
         <button
           type="button"
           className={tab === 'json' ? 'btn-primary small' : 'btn-secondary small'}
           onClick={() => { setTab('json'); setError(''); }}
         >
-          📄 JSON Bulk Import
+          <FileTextIcon /> <span>JSON Bulk Import</span>
         </button>
         <button
           type="button"
           className={tab === 'github' ? 'btn-primary small' : 'btn-secondary small'}
           onClick={() => { setTab('github'); setError(''); }}
         >
-          🐙 1-Click GitHub Importer
+          <GitHubIcon /> <span>GitHub Importer</span>
         </button>
       </div>
 
@@ -1283,7 +1288,7 @@ function FastEntryModal({ isOpen, onClose, onRefresh }) {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <span style={{ fontSize: 12, color: 'var(--text-secondary)' }}>Paste an array of project objects:</span>
             <button type="button" className="btn-link" onClick={handleFillSample} style={{ fontSize: 11 }}>
-              📋 Insert Sample Template
+              Insert Sample Template
             </button>
           </div>
           <textarea
@@ -1299,7 +1304,7 @@ function FastEntryModal({ isOpen, onClose, onRefresh }) {
             disabled={loading || !jsonText.trim()}
             onClick={handleImportJSON}
           >
-            {loading ? <><Spinner size="sm" /> <span>Importing Projects...</span></> : '⚡ Bulk Import Projects'}
+            {loading ? <><Spinner size="sm" /> <span>Importing Projects...</span></> : 'Import Projects'}
           </button>
         </div>
       ) : (
@@ -1360,7 +1365,7 @@ function FastEntryModal({ isOpen, onClose, onRefresh }) {
                 disabled={loading}
                 onClick={handleImportSelectedRepos}
               >
-                {loading ? <><Spinner size="sm" /> <span>Importing Selected...</span></> : '⚡ Import Selected Repos into WebManager'}
+                {loading ? <><Spinner size="sm" /> <span>Importing Selected...</span></> : 'Import Selected Repositories'}
               </button>
             </div>
           )}
@@ -1671,7 +1676,7 @@ export default function App() {
                   )}
                 </div>
                 <button className="btn-secondary" onClick={() => setIsFastEntryOpen(true)} style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
-                  <span>⚡ Quick Import</span>
+                  <ZapIcon /> <span>Quick Import</span>
                 </button>
                 <button className="btn-primary new-project-btn" onClick={handleOpenNewProject}>
                   <PlusIcon /> <span>New Project</span>
@@ -1721,7 +1726,7 @@ export default function App() {
             onClick={() => setProjectEditMode('form')}
             style={{ fontSize: 11 }}
           >
-            📋 Standard Form
+            <FileTextIcon /> <span>Standard Form</span>
           </button>
           <button
             type="button"
@@ -1729,7 +1734,7 @@ export default function App() {
             onClick={() => setProjectEditMode('json')}
             style={{ fontSize: 11 }}
           >
-            &#123;&#125; Edit Raw JSON
+            <CodeIcon /> <span>Edit Raw JSON</span>
           </button>
         </div>
 
