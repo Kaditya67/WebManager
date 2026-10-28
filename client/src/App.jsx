@@ -1124,7 +1124,7 @@ function ProvidersTab({ projects }) {
               });
 
               return (
-                <div key={p._id} className="stat-card" style={{ display: 'block' }}>
+                <div key={p._id} className="host-card">
                   <div className="flex-align" style={{ justifyContent: 'space-between', marginBottom: 8 }}>
                     <div className="flex-align">
                       <span className="badge counter" style={{ padding: '2px 5px' }}><ServersIcon /></span>
@@ -1147,7 +1147,7 @@ function ProvidersTab({ projects }) {
                       Console Dashboard <ExternalLinkIcon />
                     </a>
                   )}
-                  {p.notes && <p style={{ fontSize: 12, color: 'var(--text-secondary)', marginBottom: 8 }}>{p.notes}</p>}
+                  {p.notes && <p className="host-notes">{p.notes}</p>}
                   <CustomFieldsDisplay fields={p.customFields} />
 
                   <div className="provider-linked-section">
