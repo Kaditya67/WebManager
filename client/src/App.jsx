@@ -1384,6 +1384,9 @@ export default function App() {
   // Dashboard states
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditingProject, setIsEditingProject] = useState(null);
+  const [projectEditMode, setProjectEditMode] = useState('form'); // 'form' | 'json'
+  const [projectJsonText, setProjectJsonText] = useState('');
+  const [projectJsonError, setProjectJsonError] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [form, setForm] = useState({ name: '', description: '', frameworks: '', primaryLanguage: '', repositoryUrl: '', tags: '' });
   const [projectCustomFields, setProjectCustomFields] = useState([]);
@@ -1437,6 +1440,39 @@ export default function App() {
     setForm({ name: p.name, description: p.description || '', frameworks: p.frameworks || '', primaryLanguage: p.primaryLanguage || '', repositoryUrl: p.repositoryUrl || '', tags: p.tags.join(', ') });
     setProjectCustomFields(p.customFields || []);
     setIsEditingProject(p);
+    setProjectEditMode('form');
+    setProjectJsonError('');
+    // Strip internal mongo fields from clean edit copy
+    const cleanProject = {
+      name: p.name,
+      description: p.description || '',
+      frameworks: p.frameworks || '',
+      primaryLanguage: p.primaryLanguage || '',
+      repositoryUrl: p.repositoryUrl || '',
+      tags: p.tags || [],
+      customFields: p.customFields || [],
+      components: (p.components || []).map(c => ({
+        name: c.name,
+        type: c.type,
+        techStack: c.techStack || '',
+        databaseUsed: c.databaseUsed || '',
+        hostingProvider: c.hostingProvider || '',
+        internalPort: c.internalPort,
+        repositoryUrl: c.repositoryUrl || '',
+        branch: c.branch || '',
+        notes: c.notes || '',
+        customFields: c.customFields || [],
+        deployments: (c.deployments || []).map(d => ({
+          name: d.name,
+          environment: d.environment,
+          provider: d.provider || '',
+          url: d.url || '',
+          notes: d.notes || '',
+          customFields: d.customFields || []
+        }))
+      }))
+    };
+    setProjectJsonText(JSON.stringify(cleanProject, null, 2));
     setIsModalOpen(true);
   };
 
@@ -1444,6 +1480,17 @@ export default function App() {
     setForm({ name: '', description: '', frameworks: '', primaryLanguage: '', repositoryUrl: '', tags: '' });
     setProjectCustomFields([]);
     setIsEditingProject(null);
+    setProjectEditMode('form');
+    setProjectJsonError('');
+    setProjectJsonText(JSON.stringify({
+      name: "New Project",
+      description: "",
+      primaryLanguage: "JavaScript",
+      frameworks: "",
+      repositoryUrl: "",
+      tags: [],
+      components: []
+    }, null, 2));
     setIsModalOpen(true);
   };
 
@@ -1635,18 +1682,55 @@ export default function App() {
 
       {/* Project Creation / Edit Modal */}
       <Modal title={isEditingProject ? "Edit Project" : "Create New Project"} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        <div style={{ display: 'flex', gap: 6, marginBottom: 12, borderBottom: '1px solid var(--border-subtle)', paddingBottom: 8 }}>
+          <button
+            type="button"
+            className={projectEditMode === 'form' ? 'btn-primary small' : 'btn-secondary small'}
+            onClick={() => setProjectEditMode('form')}
+            style={{ fontSize: 11 }}
+          >
+            📋 Standard Form
+          </button>
+          <button
+            type="button"
+            className={projectEditMode === 'json' ? 'btn-primary small' : 'btn-secondary small'}
+            onClick={() => setProjectEditMode('json')}
+            style={{ fontSize: 11 }}
+          >
+            &#123;&#125; Edit Raw JSON
+          </button>
+        </div>
+
+        {projectJsonError && <div className="error-banner" style={{ marginBottom: 10 }}>{projectJsonError}</div>}
+
         <form onSubmit={submitProject} className="compact-form">
-          <input required placeholder="Project Name * (e.g. WebManager)" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} />
-          <div className="form-row">
-            <input placeholder="Frameworks (e.g. React, Express)" value={form.frameworks} onChange={e => setForm({ ...form, frameworks: e.target.value })} />
-            <input placeholder="Primary Language (e.g. JavaScript, Python)" value={form.primaryLanguage} onChange={e => setForm({ ...form, primaryLanguage: e.target.value })} />
-          </div>
-          <div className="form-row">
-            <input type="url" placeholder="Repository URL" value={form.repositoryUrl} onChange={e => setForm({ ...form, repositoryUrl: e.target.value })} />
-            <input placeholder="Tags (comma separated)" value={form.tags} onChange={e => setForm({ ...form, tags: e.target.value })} />
-          </div>
-          <textarea placeholder="Brief description of the project..." value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} />
-          <CustomFieldBuilder fields={projectCustomFields} setFields={setProjectCustomFields} />
+          {projectEditMode === 'json' ? (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+              <div style={{ fontSize: 11, color: 'var(--text-secondary)' }}>
+                Edit full project structure directly (name, description, tags, custom fields, components, deployments):
+              </div>
+              <textarea
+                rows={16}
+                value={projectJsonText}
+                onChange={e => setProjectJsonText(e.target.value)}
+                style={{ fontFamily: 'monospace', fontSize: 11.5, resize: 'vertical' }}
+              />
+            </div>
+          ) : (
+            <>
+              <input required placeholder="Project Name * (e.g. WebManager)" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} />
+              <div className="form-row">
+                <input placeholder="Frameworks (e.g. React, Express)" value={form.frameworks} onChange={e => setForm({ ...form, frameworks: e.target.value })} />
+                <input placeholder="Primary Language (e.g. JavaScript, Python)" value={form.primaryLanguage} onChange={e => setForm({ ...form, primaryLanguage: e.target.value })} />
+              </div>
+              <div className="form-row">
+                <input type="url" placeholder="Repository URL" value={form.repositoryUrl} onChange={e => setForm({ ...form, repositoryUrl: e.target.value })} />
+                <input placeholder="Tags (comma separated)" value={form.tags} onChange={e => setForm({ ...form, tags: e.target.value })} />
+              </div>
+              <textarea placeholder="Brief description of the project..." value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} />
+              <CustomFieldBuilder fields={projectCustomFields} setFields={setProjectCustomFields} />
+            </>
+          )}
           <button type="submit" className="btn-primary full-width" disabled={isSubmittingProject} style={{ marginTop: 10 }}>
             {isSubmittingProject ? (
               <><Spinner size="sm" /> <span>{isEditingProject ? "Saving Changes..." : "Creating Project..."}</span></>
