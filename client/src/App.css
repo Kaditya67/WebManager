@@ -1549,22 +1549,56 @@ button:disabled {
    ========================================================================== */
 .providers-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(460px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
   gap: 24px;
+  width: 100%;
 }
 
 .host-card {
   background: var(--bg-surface);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
-  padding: 24px 28px;
-  min-height: 220px;
+  padding: 22px 24px;
+  min-height: 280px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 16px;
+  gap: 18px;
   box-shadow: var(--shadow-sm);
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.host-fields-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 14px 0;
+  background: var(--bg-base);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+}
+
+.host-field-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 12px;
+}
+
+.host-field-key {
+  font-weight: 600;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.host-field-value {
+  color: var(--text-primary);
+  font-family: 'JetBrains Mono', monospace, sans-serif;
+  font-size: 11.5px;
+  text-align: right;
+  word-break: break-all;
 }
 
 .host-card:hover {
