@@ -94,4 +94,57 @@ router.delete('/:projectId/components/:componentId/deployments/:deploymentId', a
   } catch (error) { next(error); }
 });
 
+// Bulk import endpoint
+router.post('/bulk', async (req, res, next) => {
+  try {
+    let items = Array.isArray(req.body) ? req.body : req.body.projects;
+    if (!Array.isArray(items)) {
+      return res.status(400).json({ message: 'Payload must be an array of projects or { projects: [...] }' });
+    }
+
+    const created = [];
+    for (const item of items) {
+      if (!item.name) continue;
+      const doc = new Project({
+        name: item.name,
+        description: item.description || '',
+        frameworks: item.frameworks || '',
+        primaryLanguage: item.primaryLanguage || '',
+        repositoryUrl: item.repositoryUrl || '',
+        tags: Array.isArray(item.tags) ? item.tags : (typeof item.tags === 'string' ? item.tags.split(',').map(t => t.trim()).filter(Boolean) : []),
+        customFields: Array.isArray(item.customFields) ? item.customFields : [],
+        userId: req.user._id,
+      });
+
+      if (Array.isArray(item.components)) {
+        doc.components = item.components.map(c => ({
+          name: c.name || 'main',
+          type: c.type || 'other',
+          techStack: c.techStack || '',
+          databaseUsed: c.databaseUsed || '',
+          hostingProvider: c.hostingProvider || '',
+          internalPort: c.internalPort,
+          repositoryUrl: c.repositoryUrl || '',
+          branch: c.branch || '',
+          notes: c.notes || '',
+          customFields: Array.isArray(c.customFields) ? c.customFields : [],
+          deployments: Array.isArray(c.deployments) ? c.deployments.map(d => ({
+            name: d.name || 'Production',
+            environment: d.environment || 'production',
+            provider: d.provider || '',
+            url: d.url || '',
+            notes: d.notes || '',
+            customFields: Array.isArray(d.customFields) ? d.customFields : []
+          })) : []
+        }));
+      }
+
+      await doc.save();
+      created.push(doc);
+    }
+
+    res.status(201).json({ count: created.length, projects: created });
+  } catch (error) { next(error); }
+});
+
 module.exports = router;

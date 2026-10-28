@@ -1114,6 +1114,262 @@ function ProvidersTab({ projects }) {
   );
 }
 
+function FastEntryModal({ isOpen, onClose, onRefresh }) {
+  const [tab, setTab] = useState('json');
+  const [jsonText, setJsonText] = useState('');
+  const [ghUser, setGhUser] = useState('Kaditya67');
+  const [ghRepos, setGhRepos] = useState([]);
+  const [selectedRepos, setSelectedRepos] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [statusMsg, setStatusMsg] = useState('');
+  const [error, setError] = useState('');
+
+  if (!isOpen) return null;
+
+  const sampleJSON = [
+    {
+      name: "WebManager",
+      description: "Full-stack project and deployment tracking portal",
+      primaryLanguage: "JavaScript",
+      frameworks: "React, Express, Node.js",
+      repositoryUrl: "https://github.com/Kaditya67/WebManager",
+      tags: ["portfolio", "tools"],
+      components: [
+        {
+          name: "client",
+          type: "frontend",
+          techStack: "React 19, Vite",
+          internalPort: 5173,
+          deployments: [
+            { name: "Vercel Production", environment: "production", provider: "Vercel", url: "https://webmanager.vercel.app" }
+          ]
+        },
+        {
+          name: "server",
+          type: "backend",
+          techStack: "Express, Mongoose",
+          internalPort: 5000,
+          deployments: [
+            { name: "Vercel Serverless", environment: "production", provider: "Vercel", url: "https://webmanager-api.vercel.app" }
+          ]
+        }
+      ]
+    }
+  ];
+
+  const handleFillSample = () => {
+    setJsonText(JSON.stringify(sampleJSON, null, 2));
+    setError('');
+  };
+
+  const handleImportJSON = async () => {
+    setError('');
+    setStatusMsg('');
+    try {
+      const parsed = JSON.parse(jsonText);
+      const payload = Array.isArray(parsed) ? parsed : (parsed.projects ? parsed.projects : [parsed]);
+      if (!payload.length) throw new Error('No project found in JSON');
+      setLoading(true);
+      const res = await api('/projects/bulk', {
+        method: 'POST',
+        body: JSON.stringify(payload)
+      });
+      setStatusMsg(`Successfully imported ${res.count} project(s)!`);
+      setTimeout(() => {
+        onRefresh();
+        onClose();
+      }, 1000);
+    } catch (e) {
+      setError(e.message || 'Invalid JSON syntax');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleFetchGitHub = async () => {
+    if (!ghUser.trim()) return;
+    setError('');
+    setStatusMsg('');
+    setLoading(true);
+    try {
+      const res = await fetch(`https://api.github.com/users/${ghUser.trim()}/repos?sort=updated&per_page=40`);
+      if (!res.ok) throw new Error('Failed to fetch GitHub repos for user: ' + ghUser);
+      const data = await res.json();
+      setGhRepos(data);
+      const sel = {};
+      data.forEach(r => { sel[r.id] = true; });
+      setSelectedRepos(sel);
+    } catch (e) {
+      setError(e.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleImportSelectedRepos = async () => {
+    const toImport = ghRepos.filter(r => selectedRepos[r.id]);
+    if (!toImport.length) {
+      setError('Please select at least one repo to import');
+      return;
+    }
+    setError('');
+    setLoading(true);
+    try {
+      const projectsPayload = toImport.map(r => ({
+        name: r.name,
+        description: r.description || '',
+        primaryLanguage: r.language || 'Other',
+        frameworks: '',
+        repositoryUrl: r.html_url,
+        tags: r.topics && r.topics.length ? r.topics : [r.language || 'Code'].filter(Boolean),
+        components: [
+          {
+            name: 'main',
+            type: 'other',
+            techStack: r.language || '',
+            repositoryUrl: r.html_url,
+            branch: r.default_branch || 'main',
+            deployments: r.homepage ? [
+              {
+                name: 'Live Demo',
+                environment: 'production',
+                url: r.homepage
+              }
+            ] : []
+          }
+        ]
+      }));
+
+      const res = await api('/projects/bulk', {
+        method: 'POST',
+        body: JSON.stringify(projectsPayload)
+      });
+      setStatusMsg(`Successfully imported ${res.count} project(s) from GitHub!`);
+      setTimeout(() => {
+        onRefresh();
+        onClose();
+      }, 1000);
+    } catch (e) {
+      setError(e.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <Modal title="⚡ Fast Data Entry & Importer" isOpen={isOpen} onClose={onClose}>
+      <div style={{ display: 'flex', gap: 8, marginBottom: 16, borderBottom: '1px solid var(--border-subtle)', paddingBottom: 10 }}>
+        <button
+          type="button"
+          className={tab === 'json' ? 'btn-primary small' : 'btn-secondary small'}
+          onClick={() => { setTab('json'); setError(''); }}
+        >
+          📄 JSON Bulk Import
+        </button>
+        <button
+          type="button"
+          className={tab === 'github' ? 'btn-primary small' : 'btn-secondary small'}
+          onClick={() => { setTab('github'); setError(''); }}
+        >
+          🐙 1-Click GitHub Importer
+        </button>
+      </div>
+
+      {error && <div className="error-banner" style={{ marginBottom: 12 }}>{error}</div>}
+      {statusMsg && <div className="status-badge env-production" style={{ display: 'block', padding: '8px 12px', marginBottom: 12, fontSize: 12, textAlign: 'center' }}>{statusMsg}</div>}
+
+      {tab === 'json' ? (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span style={{ fontSize: 12, color: 'var(--text-secondary)' }}>Paste an array of project objects:</span>
+            <button type="button" className="btn-link" onClick={handleFillSample} style={{ fontSize: 11 }}>
+              📋 Insert Sample Template
+            </button>
+          </div>
+          <textarea
+            rows={12}
+            value={jsonText}
+            onChange={e => setJsonText(e.target.value)}
+            placeholder={'[\n  {\n    "name": "My App",\n    "components": [...]\n  }\n]'}
+            style={{ fontFamily: 'monospace', fontSize: 11.5, resize: 'vertical' }}
+          />
+          <button
+            type="button"
+            className="btn-primary full-width"
+            disabled={loading || !jsonText.trim()}
+            onClick={handleImportJSON}
+          >
+            {loading ? <><Spinner size="sm" /> <span>Importing Projects...</span></> : '⚡ Bulk Import Projects'}
+          </button>
+        </div>
+      ) : (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+          <div style={{ display: 'flex', gap: 8 }}>
+            <input
+              type="text"
+              placeholder="GitHub Username (e.g. Kaditya67)"
+              value={ghUser}
+              onChange={e => setGhUser(e.target.value)}
+              onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); handleFetchGitHub(); } }}
+            />
+            <button type="button" className="btn-secondary" onClick={handleFetchGitHub} disabled={loading || !ghUser.trim()}>
+              {loading && !ghRepos.length ? <Spinner size="sm" /> : 'Fetch Repos'}
+            </button>
+          </div>
+
+          {ghRepos.length > 0 && (
+            <div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+                <span style={{ fontSize: 12, fontWeight: 600 }}>Select Repositories ({Object.values(selectedRepos).filter(Boolean).length} / {ghRepos.length})</span>
+                <button
+                  type="button"
+                  className="btn-link"
+                  style={{ fontSize: 11 }}
+                  onClick={() => {
+                    const allTrue = Object.values(selectedRepos).filter(Boolean).length === ghRepos.length;
+                    const next = {};
+                    ghRepos.forEach(r => { next[r.id] = !allTrue; });
+                    setSelectedRepos(next);
+                  }}
+                >
+                  Toggle All
+                </button>
+              </div>
+
+              <div style={{ maxHeight: 240, overflowY: 'auto', border: '1px solid var(--border-subtle)', borderRadius: 6, padding: '4px 8px' }}>
+                {ghRepos.map(r => (
+                  <label key={r.id} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 0', borderBottom: '1px solid var(--border-subtle)', cursor: 'pointer', fontSize: 12 }}>
+                    <input
+                      type="checkbox"
+                      checked={!!selectedRepos[r.id]}
+                      onChange={e => setSelectedRepos({ ...selectedRepos, [r.id]: e.target.checked })}
+                    />
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{r.name}</div>
+                      {r.description && <div style={{ fontSize: 10.5, color: 'var(--text-secondary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{r.description}</div>}
+                    </div>
+                    {r.language && <span className="badge tag" style={{ fontSize: 10 }}>{r.language}</span>}
+                  </label>
+                ))}
+              </div>
+
+              <button
+                type="button"
+                className="btn-primary full-width"
+                style={{ marginTop: 12 }}
+                disabled={loading}
+                onClick={handleImportSelectedRepos}
+              >
+                {loading ? <><Spinner size="sm" /> <span>Importing Selected...</span></> : '⚡ Import Selected Repos into WebManager'}
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+    </Modal>
+  );
+}
+
 export default function App() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -1123,6 +1379,7 @@ export default function App() {
   // Tab states: 'projects' | 'deployments' | 'infrastructure' | 'insights'
   const [activeTab, setActiveTab] = useState('projects');
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+  const [isFastEntryOpen, setIsFastEntryOpen] = useState(false);
   
   // Dashboard states
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -1334,6 +1591,9 @@ export default function App() {
                     </button>
                   )}
                 </div>
+                <button className="btn-secondary" onClick={() => setIsFastEntryOpen(true)} style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                  <span>⚡ Quick Import</span>
+                </button>
                 <button className="btn-primary new-project-btn" onClick={handleOpenNewProject}>
                   <PlusIcon /> <span>New Project</span>
                 </button>
@@ -1356,6 +1616,13 @@ export default function App() {
           </div>
         )}
       </main>
+
+      {/* Fast Entry Modal */}
+      <FastEntryModal
+        isOpen={isFastEntryOpen}
+        onClose={() => setIsFastEntryOpen(false)}
+        onRefresh={loadProjects}
+      />
 
       {/* Profile / Account Settings Modal */}
       <ProfileModal 
