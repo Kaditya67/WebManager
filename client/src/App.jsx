@@ -1497,8 +1497,36 @@ export default function App() {
   const submitProject = async e => { 
     e.preventDefault(); 
     setIsSubmittingProject(true);
+    setProjectJsonError('');
     try { 
-      if (isEditingProject) {
+      if (projectEditMode === 'json') {
+        let parsed;
+        try {
+          parsed = JSON.parse(projectJsonText);
+        } catch (err) {
+          throw new Error('Invalid JSON: ' + err.message);
+        }
+        // If user wrapped the project in an array [ { ... } ], automatically unwrap it
+        if (Array.isArray(parsed)) {
+          if (!parsed.length) throw new Error('Array must contain at least one project object');
+          parsed = parsed[0];
+        }
+        if (!parsed.name) {
+          throw new Error('Path `name` is required in project JSON');
+        }
+
+        if (isEditingProject) {
+          await api(`/projects/${isEditingProject._id}`, { 
+            method: 'PUT', 
+            body: JSON.stringify(parsed) 
+          }); 
+        } else {
+          await api('/projects', { 
+            method: 'POST', 
+            body: JSON.stringify(parsed) 
+          }); 
+        }
+      } else if (isEditingProject) {
         await api(`/projects/${isEditingProject._id}`, { 
           method: 'PUT', 
           body: JSON.stringify({ 
@@ -1523,7 +1551,11 @@ export default function App() {
       setIsEditingProject(null);
       await loadProjects(); 
     } catch (err) { 
-      setError(err.message); 
+      if (projectEditMode === 'json') {
+        setProjectJsonError(err.message);
+      } else {
+        setError(err.message); 
+      }
     } finally {
       setIsSubmittingProject(false);
     }
