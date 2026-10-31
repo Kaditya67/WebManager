@@ -333,6 +333,7 @@ function Project({ project, reload, onEditProject }) {
   return (
     <article className="project animate-slide-up">
       <div className="project-header" onClick={() => setOpen(!open)}>
+        <div className="project-mark" aria-hidden="true">{project.name?.charAt(0).toUpperCase() || 'P'}</div>
         <div className="project-title-group">
           <h2>{project.name}</h2>
           <p>{project.description || 'No description provided.'}</p>
@@ -348,6 +349,7 @@ function Project({ project, reload, onEditProject }) {
           ) : (
             <button className="btn-delete" onClick={(e) => { e.stopPropagation(); setConfirmDelete(true); }}>Delete</button>
           )}
+          <span className={`project-chevron ${open ? 'is-open' : ''}`} aria-hidden="true">⌄</span>
         </div>
       </div>
       
@@ -1125,12 +1127,15 @@ function ProvidersTab({ projects }) {
 
               return (
                 <div key={p._id} className="host-card">
-                  <div className="flex-align" style={{ justifyContent: 'space-between', marginBottom: 8 }}>
-                    <div className="flex-align">
-                      <span className="badge counter" style={{ padding: '2px 5px' }}><ServersIcon /></span>
-                      <h3 style={{ margin: 0, fontSize: 14 }}>{p.name}</h3>
+                  <div className="host-card-top">
+                    <div className="host-identity">
+                      <span className="host-icon-box"><ServersIcon /></span>
+                      <div>
+                        <span className="host-eyebrow">INFRASTRUCTURE HOST</span>
+                        <h3>{p.name}</h3>
+                      </div>
                     </div>
-                    <div className="flex-align">
+                    <div className="host-actions">
                       <button className="btn-icon" onClick={() => startEdit(p)}><EditIcon /></button>
                       {confirmDeleteId === p._id ? (
                         <>
@@ -1143,7 +1148,7 @@ function ProvidersTab({ projects }) {
                     </div>
                   </div>
                   {p.url && (
-                    <a href={p.url} target="_blank" rel="noreferrer" className="link flex-align" style={{ gap: 0, marginBottom: 6, fontSize: 12 }}>
+                    <a href={p.url} target="_blank" rel="noreferrer" className="host-link">
                       Console Dashboard <ExternalLinkIcon />
                     </a>
                   )}
@@ -1435,6 +1440,7 @@ export default function App() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [projects, setProjects] = useState([]);
+  const [providerCount, setProviderCount] = useState(0);
   const [error, setError] = useState('');
   
   // Tab states: 'projects' | 'deployments' | 'infrastructure' | 'insights'
@@ -1459,6 +1465,10 @@ export default function App() {
   };
   
   const [theme, setTheme] = useState(getInitialTheme);
+
+  useEffect(() => {
+    api('/providers').then(data => setProviderCount(data.length)).catch(() => {});
+  }, []);
   
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
@@ -1679,6 +1689,7 @@ export default function App() {
           <button className={`tab-btn ${activeTab === 'infrastructure' ? 'active' : ''}`} onClick={() => setActiveTab('infrastructure')}>
             <ServersIcon />
             <span>Infrastructure</span>
+            <span className="tab-badge">{providerCount}</span>
           </button>
           <button className={`tab-btn ${activeTab === 'insights' ? 'active' : ''}`} onClick={() => setActiveTab('insights')}>
             <InsightsIcon />
