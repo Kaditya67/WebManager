@@ -211,7 +211,7 @@ async function api(path = '', options = {}) {
   if (!response.ok) {
     if (response.status === 401) {
       localStorage.removeItem('token');
-      window.location.reload();
+      // Removed window.location.reload() to prevent endless refresh loop on 401
     }
     const errorData = await response.json().catch(() => ({}));
     throw new Error(errorData.message || 'Request failed');
